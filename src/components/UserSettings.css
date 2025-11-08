@@ -1,0 +1,254 @@
+.settings-container {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.settings-header {
+  margin-bottom: 8px;
+}
+
+.settings-title {
+  font-size: 30px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 8px 0;
+}
+
+.settings-description {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.settings-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.card-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.card-content {
+  padding: 24px;
+}
+
+.table-wrapper {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.users-table thead {
+  background: #f9fafb;
+}
+
+.users-table th {
+  text-align: center;
+  padding: 16px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+  border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;
+}
+
+.users-table th:nth-child(1),
+.users-table td:nth-child(1) {
+  width: 20%;
+  padding-left: 16px;
+}
+
+.users-table th:nth-child(2),
+.users-table td:nth-child(2) {
+  width: 15%;
+}
+
+.users-table th:nth-child(3),
+.users-table td:nth-child(3) {
+  width: 30%;
+}
+
+.users-table th:nth-child(4),
+.users-table td:nth-child(4) {
+  width: 20%;
+}
+
+.users-table th:nth-child(5),
+.users-table td:nth-child(5) {
+  width: 15%;
+  text-align: center;
+}
+
+.users-table tbody tr {
+  border-top: 1px solid #e5e7eb;
+  transition: background 0.2s;
+}
+
+.users-table tbody tr:hover:not(.add-user-row) {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.users-table td {
+  padding: 16px 16px;
+  font-size: 14px;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.user-name {
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.user-info {
+  color: #6b7280;
+}
+
+.role-select {
+  width: 100%;
+  max-width: 200px;
+  padding: 8px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 14px;
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.role-select:focus {
+  outline: none;
+  border-color: #0369a1;
+  box-shadow: 0 0 0 3px rgba(3, 105, 161, 0.1);
+}
+
+.delete-btn {
+  background: transparent;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  border-radius: 4px;
+  transition: background 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-btn:hover {
+  background: rgba(220, 38, 38, 0.1);
+}
+
+.add-user-row {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.table-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.table-input:focus {
+  outline: none;
+  border-color: #0369a1;
+  box-shadow: 0 0 0 3px rgba(3, 105, 161, 0.1);
+}
+
+.add-user-btn {
+  padding: 8px 16px;
+  background: #0369a1;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background 0.2s;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.add-user-btn:hover {
+  background: #075985;
+}
+
+.permissions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.permission-box {
+  padding: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.permission-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 8px 0;
+}
+
+.permission-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.permission-list li {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+@media (max-width: 1024px) {
+  .permissions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .role-select {
+    width: 100%;
+  }
+
+  .users-table {
+    font-size: 12px;
+  }
+
+  .users-table th,
+  .users-table td {
+    padding: 12px;
+  }
+}
