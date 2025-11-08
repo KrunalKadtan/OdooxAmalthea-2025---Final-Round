@@ -65,6 +65,25 @@ function UserProfile({ userName, userRole = "Administrator" }) {
   const canViewSalary =
     userRole === "Administrator" || userRole === "Payroll Officer";
 
+  const privateInfo = {
+    dateOfBirth: "1990-05-15",
+    residingAddress:
+      "123 Main Street, Apartment 4B, Mumbai, Maharashtra 400001",
+    nationality: "Indian",
+    personalEmail: "admin.personal@gmail.com",
+    gender: "Male",
+    maritalStatus: "Married",
+    dateOfJoining: "2020-01-15",
+    bankDetails: {
+      accountNumber: "1234567890123456",
+      bankName: "HDFC Bank",
+      ifscCode: "HDFC0001234",
+      panNo: "ABCDE1234F",
+      uanNo: "123456789012",
+      empCode: "EMP2022001",
+    },
+  };
+
   const about =
     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.";
 
@@ -306,10 +325,151 @@ function UserProfile({ userName, userRole = "Administrator" }) {
           )}
 
           {activeTab === "private-info" && (
-            <div className="profile-card">
-              <p className="coming-soon">
-                Private information section coming soon...
-              </p>
+            <div className="private-info-content">
+              {/* Personal Information */}
+              <div className="profile-card">
+                <h3 className="private-info-title">Personal Information</h3>
+                <div className="private-info-form">
+                  <div className="form-row">
+                    <div className="form-field">
+                      <label className="private-label">Date of Birth</label>
+                      <input
+                        type="date"
+                        className="private-input"
+                        value={privateInfo.dateOfBirth}
+                        readOnly
+                      />
+                    </div>
+                    <div className="form-field">
+                      <label className="private-label">Date of Joining</label>
+                      <input
+                        type="date"
+                        className="private-input"
+                        value={privateInfo.dateOfJoining}
+                        readOnly
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-field">
+                    <label className="private-label">Residing Address</label>
+                    <input
+                      type="text"
+                      className="private-input"
+                      value={privateInfo.residingAddress}
+                      readOnly
+                    />
+                  </div>
+
+                  <div className="form-row">
+                    <div className="form-field">
+                      <label className="private-label">Nationality</label>
+                      <input
+                        type="text"
+                        className="private-input"
+                        value={privateInfo.nationality}
+                        readOnly
+                      />
+                    </div>
+                    <div className="form-field">
+                      <label className="private-label">Gender</label>
+                      <input
+                        type="text"
+                        className="private-input"
+                        value={privateInfo.gender}
+                        readOnly
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-row">
+                    <div className="form-field">
+                      <label className="private-label">Personal Email</label>
+                      <input
+                        type="email"
+                        className="private-input"
+                        value={privateInfo.personalEmail}
+                        readOnly
+                      />
+                    </div>
+                    <div className="form-field">
+                      <label className="private-label">Marital Status</label>
+                      <input
+                        type="text"
+                        className="private-input"
+                        value={privateInfo.maritalStatus}
+                        readOnly
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bank Details */}
+              <div className="profile-card">
+                <h3 className="private-info-title">Bank Details</h3>
+                <div className="private-info-form">
+                  <div className="form-field">
+                    <label className="private-label">Account Number</label>
+                    <input
+                      type="text"
+                      className="private-input"
+                      value={privateInfo.bankDetails.accountNumber}
+                      readOnly
+                    />
+                  </div>
+
+                  <div className="form-field">
+                    <label className="private-label">Bank Name</label>
+                    <input
+                      type="text"
+                      className="private-input"
+                      value={privateInfo.bankDetails.bankName}
+                      readOnly
+                    />
+                  </div>
+
+                  <div className="form-field">
+                    <label className="private-label">IFSC Code</label>
+                    <input
+                      type="text"
+                      className="private-input"
+                      value={privateInfo.bankDetails.ifscCode}
+                      readOnly
+                    />
+                  </div>
+
+                  <div className="form-field">
+                    <label className="private-label">PAN No</label>
+                    <input
+                      type="text"
+                      className="private-input"
+                      value={privateInfo.bankDetails.panNo}
+                      readOnly
+                    />
+                  </div>
+
+                  <div className="form-field">
+                    <label className="private-label">UAN NO</label>
+                    <input
+                      type="text"
+                      className="private-input"
+                      value={privateInfo.bankDetails.uanNo}
+                      readOnly
+                    />
+                  </div>
+
+                  <div className="form-field">
+                    <label className="private-label">Emp Code</label>
+                    <input
+                      type="text"
+                      className="private-input"
+                      value={privateInfo.bankDetails.empCode}
+                      readOnly
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           )}
 
