@@ -5,10 +5,12 @@ import RegisterPage from "./components/auth/RegisterPage";
 // Layout
 import Sidebar from "./components/layout/Sidebar";
 import EmployeeSidebar from "./components/layout/EmployeeSidebar";
+import HRSidebar from "./components/layout/HRSidebar";
 import Header from "./components/layout/Header";
 // Dashboard
 import AdminDashboard from "./components/dashboard/AdminDashboard";
 import EmployeeDashboard from "./components/dashboard/EmployeeDashboard";
+import HRDashboard from "./components/dashboard/HRDashboard";
 // Employee
 import MyAttendance from "./components/employee/MyAttendance";
 import ApplyLeave from "./components/employee/ApplyLeave";
@@ -41,6 +43,11 @@ function App() {
       setUserRole("Administrator");
       setCurrentView("dashboard");
       setCurrentPage("admin");
+    } else if (email.includes("hr")) {
+      setUserName("Lisa Anderson");
+      setUserRole("HR Officer");
+      setCurrentView("hr-dashboard");
+      setCurrentPage("hr");
     } else if (email.includes("employee")) {
       setUserName("Sarah Johnson");
       setUserRole("Employee");
@@ -76,6 +83,8 @@ function App() {
         return <AdminDashboard onNavigate={handleNavigate} />;
       case "employee-dashboard":
         return <EmployeeDashboard userName={userName} />;
+      case "hr-dashboard":
+        return <HRDashboard onNavigate={handleNavigate} />;
       case "attendance":
         return userRole === "Employee" ? (
           <MyAttendance />
@@ -117,11 +126,13 @@ function App() {
     );
   }
 
-  // Main Portal (Admin or Employee)
+  // Main Portal (Admin, HR, or Employee)
   return (
     <div className="app-container">
       {currentPage === "admin" ? (
         <Sidebar currentView={currentView} onNavigate={handleNavigate} />
+      ) : currentPage === "hr" ? (
+        <HRSidebar currentView={currentView} onNavigate={handleNavigate} />
       ) : (
         <EmployeeSidebar
           currentView={currentView}

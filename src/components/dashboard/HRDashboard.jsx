@@ -1,18 +1,4 @@
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  Button,
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
-  Badge,
-} from "../common";
+import React from "react";
 import { UserPlus, Users, Calendar, Briefcase } from "lucide-react";
 import "./HRDashboard.css";
 
@@ -92,64 +78,61 @@ function HRDashboard({ onNavigate }) {
             Manage your workforce and employee records
           </p>
         </div>
-        <Button onClick={() => onNavigate("employees")}>
+        <button
+          className="btn-create-employee"
+          onClick={() => onNavigate("employee-directory")}
+        >
           <UserPlus className="btn-icon" />
           Create New Employee Profile
-        </Button>
+        </button>
       </div>
 
-      {/* Stats Grid */}
       <div className="stats-grid">
-        <Card className="stat-card">
-          <CardContent className="stat-card-content">
-            <div className="stat-info">
+        <div className="stat-card">
+          <div className="stat-content">
+            <div>
               <p className="stat-label">Total Employees</p>
               <h2 className="stat-value">{leaveAllocation.totalEmployees}</h2>
             </div>
-            <Users className="stat-icon text-primary" />
-          </CardContent>
-        </Card>
+            <Users className="stat-icon primary" />
+          </div>
+        </div>
 
-        <Card className="stat-card">
-          <CardContent className="stat-card-content">
-            <div className="stat-info">
+        <div className="stat-card">
+          <div className="stat-content">
+            <div>
               <p className="stat-label">New Hires This Month</p>
               <h2 className="stat-value">{newHires.length}</h2>
             </div>
-            <UserPlus className="stat-icon text-green" />
-          </CardContent>
-        </Card>
+            <UserPlus className="stat-icon green" />
+          </div>
+        </div>
 
-        <Card className="stat-card">
-          <CardContent className="stat-card-content">
-            <div className="stat-info">
+        <div className="stat-card">
+          <div className="stat-content">
+            <div>
               <p className="stat-label">Total Leaves Allocated</p>
               <h2 className="stat-value">{leaveAllocation.totalLeaveDays}</h2>
             </div>
-            <Calendar className="stat-icon text-yellow" />
-          </CardContent>
-        </Card>
+            <Calendar className="stat-icon yellow" />
+          </div>
+        </div>
       </div>
 
-      {/* New Hires Card */}
-      <Card className="new-hires-card">
-        <CardHeader>
-          <div className="card-header-row">
-            <div>
-              <CardTitle>New Hires This Month</CardTitle>
-              <CardDescription>Recently onboarded employees</CardDescription>
-            </div>
-            <Button variant="outline" size="small">
-              View All
-            </Button>
+      <div className="dashboard-card">
+        <div className="card-header">
+          <div>
+            <h3 className="card-title">New Hires This Month</h3>
+            <p className="card-description">Recently onboarded employees</p>
           </div>
-        </CardHeader>
-        <CardContent>
-          <div className="new-hires-list">
+          <button className="btn-outline-sm">View All</button>
+        </div>
+        <div className="card-content">
+          <div className="hires-list">
             {newHires.map((hire, index) => (
-              <div key={index} className="new-hire-item">
-                <div className="new-hire-info">
-                  <div className="hire-icon-wrapper">
+              <div key={index} className="hire-item">
+                <div className="hire-info">
+                  <div className="hire-avatar">
                     <Briefcase className="hire-icon" />
                   </div>
                   <div>
@@ -159,84 +142,94 @@ function HRDashboard({ onNavigate }) {
                     </p>
                   </div>
                 </div>
-                <Badge variant="success" className="hire-badge">
-                  {hire.startDate}
-                </Badge>
+                <div className="hire-date">
+                  <span className="badge badge-green">{hire.startDate}</span>
+                </div>
               </div>
             ))}
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      {/* Attendance Monitoring Card */}
-      <Card className="attendance-card">
-        <CardHeader>
-          <CardTitle>Employee Attendance Monitoring</CardTitle>
-          <CardDescription>Real-time attendance tracking for today</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Employee ID</TableHead>
-                <TableHead>Name</TableHead>
-                <TableHead>Department</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Check-in Time</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {attendanceRecords.map((record) => (
-                <TableRow key={record.id}>
-                  <TableCell>{record.id}</TableCell>
-                  <TableCell>{record.name}</TableCell>
-                  <TableCell>{record.department}</TableCell>
-                  <TableCell>
-                    <Badge
-                      variant={
-                        record.status === "Present" ? "success" : "danger"
-                      }
-                    >
-                      {record.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>{record.time}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+      <div className="dashboard-card">
+        <div className="card-header">
+          <div>
+            <h3 className="card-title">Employee Attendance Monitoring</h3>
+            <p className="card-description">
+              Real-time attendance tracking for today
+            </p>
+          </div>
+        </div>
+        <div className="card-content">
+          <div className="table-wrapper">
+            <table className="attendance-table">
+              <thead>
+                <tr>
+                  <th>Employee ID</th>
+                  <th>Name</th>
+                  <th>Department</th>
+                  <th>Status</th>
+                  <th>Check-in Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                {attendanceRecords.map((record) => (
+                  <tr key={record.id}>
+                    <td>{record.id}</td>
+                    <td>{record.name}</td>
+                    <td>{record.department}</td>
+                    <td>
+                      <span
+                        className={`badge ${
+                          record.status === "Present"
+                            ? "badge-green"
+                            : "badge-red"
+                        }`}
+                      >
+                        {record.status}
+                      </span>
+                    </td>
+                    <td>{record.time}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
 
-      {/* Leave Allocation Summary */}
-      <Card className="leave-allocation-card">
-        <CardHeader>
-          <CardTitle>Leave Allocation Summary</CardTitle>
-          <CardDescription>Organization-wide leave statistics</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="leave-allocation-grid">
-            <div className="allocation-item">
-              <p className="allocation-label">Total Leave Days</p>
-              <h3 className="allocation-value">
+      <div className="dashboard-card">
+        <div className="card-header">
+          <div>
+            <h3 className="card-title">Leave Allocation Summary</h3>
+            <p className="card-description">
+              Organization-wide leave statistics
+            </p>
+          </div>
+        </div>
+        <div className="card-content">
+          <div className="leave-stats-grid">
+            <div className="leave-stat-item">
+              <p className="leave-stat-label">Total Leave Days</p>
+              <h3 className="leave-stat-value">
                 {leaveAllocation.totalLeaveDays}
               </h3>
             </div>
-            <div className="allocation-item">
-              <p className="allocation-label">Used</p>
-              <h3 className="allocation-value text-red">
+            <div className="leave-stat-item">
+              <p className="leave-stat-label">Used</p>
+              <h3 className="leave-stat-value red">
                 {leaveAllocation.usedLeaveDays}
               </h3>
             </div>
-            <div className="allocation-item">
-              <p className="allocation-label">Remaining</p>
-              <h3 className="allocation-value text-green">
+            <div className="leave-stat-item">
+              <p className="leave-stat-label">Remaining</p>
+              <h3 className="leave-stat-value green">
                 {leaveAllocation.remainingLeaveDays}
               </h3>
             </div>
-            <div className="allocation-item">
-              <p className="allocation-label">Utilization</p>
-              <h3 className="allocation-value text-primary">
+            <div className="leave-stat-item">
+              <p className="leave-stat-label">Utilization</p>
+              <h3 className="leave-stat-value primary">
                 {Math.round(
                   (leaveAllocation.usedLeaveDays /
                     leaveAllocation.totalLeaveDays) *
@@ -246,8 +239,8 @@ function HRDashboard({ onNavigate }) {
               </h3>
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }

@@ -77,3 +77,30 @@
   height: 20px;
   flex-shrink: 0;
 }
+
+/* Portal Badge */
+.portal-badge {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.portal-badge.hr {
+  background: #dbeafe;
+  color: #0369a1;
+}
+
+.portal-badge.admin {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.portal-badge.employee {
+  background: #dcfce7;
+  color: #15803d;
+}

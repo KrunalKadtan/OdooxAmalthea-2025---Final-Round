@@ -256,31 +256,30 @@ function AdminDashboard({ onNavigate }) {
       </Card>
 
       {/* Quick Actions Grid */}
-      <div className="quick-actions-grid">
-        {quickActions.map((action, index) => {
-          const Icon = action.icon;
-          return (
-            <Card
-              key={index}
-              className="quick-action-card"
-              onClick={() => onNavigate(action.link)}
-            >
-              <CardContent className="quick-action-content">
-                <div className="quick-action-inner">
-                  <div className={`quick-action-icon-wrapper ${action.color}`}>
-                    <Icon className="quick-action-icon" />
-                  </div>
-                  <div>
-                    <h3 className="quick-action-title">{action.title}</h3>
-                    <p className="quick-action-description">
-                      {action.description}
-                    </p>
-                  </div>
+      <div className="quick-actions-section">
+        <h2 className="section-title">Quick Actions</h2>
+        <div className="quick-actions-grid">
+          {quickActions.map((action, index) => {
+            const Icon = action.icon;
+            return (
+              <div
+                key={index}
+                className="quick-action-card"
+                onClick={() => onNavigate(action.link)}
+              >
+                <div className={`quick-action-icon-wrapper ${action.color}`}>
+                  <Icon className="quick-action-icon" />
                 </div>
-              </CardContent>
-            </Card>
-          );
-        })}
+                <div className="quick-action-text">
+                  <h3 className="quick-action-title">{action.title}</h3>
+                  <p className="quick-action-description">
+                    {action.description}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

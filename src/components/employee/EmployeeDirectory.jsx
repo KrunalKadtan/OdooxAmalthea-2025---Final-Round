@@ -1,12 +1,22 @@
 import React, { useState } from "react";
-import { Search, Plane } from "lucide-react";
+import { Search, Plus, Plane, X, Edit } from "lucide-react";
 import "./EmployeeDirectory.css";
 
 function EmployeeDirectory() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [showAddDialog, setShowAddDialog] = useState(false);
+  const [showEditDialog, setShowEditDialog] = useState(false);
+  const [editEmployee, setEditEmployee] = useState(null);
+  const [newEmployee, setNewEmployee] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    jobTitle: "",
+    department: "",
+  });
 
-  const [employees] = useState([
+  const [employees, setEmployees] = useState([
     {
       id: "WZ-1234",
       name: "Sarah Johnson",
@@ -142,24 +152,37 @@ function EmployeeDirectory() {
     }
   };
 
-  const handleCardClick = (employee) => {
+  const handleCardClick = (employee, e) => {
+    if (e.target.closest("button")) {
+      return;
+    }
     setSelectedEmployee(employee);
   };
 
   if (selectedEmployee) {
     return (
-      <div className="employee-directory-container">
-        <div className="directory-header">
+      <div className="page-container">
+        <div className="page-header">
           <button
             className="back-btn"
             onClick={() => setSelectedEmployee(null)}
           >
-            ← Back to Directory
+            ← Back to Employee Directory
           </button>
           <div>
-            <h1 className="directory-title">{selectedEmployee.name}</h1>
-            <p className="directory-subtitle">Employee Profile (View Only)</p>
+            <h1 className="page-title">{selectedEmployee.name}</h1>
+            <p className="page-subtitle">Employee Profile</p>
           </div>
+          <button
+            className="btn-edit"
+            onClick={() => {
+              setEditEmployee({ ...selectedEmployee });
+              setShowEditDialog(true);
+            }}
+          >
+            <Edit className="btn-icon" />
+            Edit Profile
+          </button>
         </div>
 
         <div className="profile-grid">
@@ -221,27 +244,410 @@ function EmployeeDirectory() {
             </div>
           </div>
         </div>
+
+        {/* Edit Employee Dialog */}
+        {showEditDialog && editEmployee && (
+          <div
+            className="dialog-overlay"
+            onClick={() => setShowEditDialog(false)}
+          >
+            <div
+              className="dialog-content"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="dialog-header">
+                <div>
+                  <h2 className="dialog-title">Edit Employee</h2>
+                  <p className="dialog-description">
+                    Update employee profile information
+                  </p>
+                </div>
+                <button
+                  className="dialog-close"
+                  onClick={() => setShowEditDialog(false)}
+                >
+                  <X className="close-icon" />
+                </button>
+              </div>
+
+              <div className="dialog-body">
+                <div className="form-grid">
+                  <div className="form-group">
+                    <label className="form-label">Full Name</label>
+                    <input
+                      type="text"
+                      className="form-input"
+                      value={editEmployee.name}
+                      onChange={(e) =>
+                        setEditEmployee({
+                          ...editEmployee,
+                          name: e.target.value,
+                        })
+                      }
+                      placeholder="Enter full name"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Email</label>
+                    <input
+                      type="email"
+                      className="form-input"
+                      value={editEmployee.email}
+                      onChange={(e) =>
+                        setEditEmployee({
+                          ...editEmployee,
+                          email: e.target.value,
+                        })
+                      }
+                      placeholder="Enter email address"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Phone</label>
+                    <input
+                      type="tel"
+                      className="form-input"
+                      value={editEmployee.phone}
+                      onChange={(e) =>
+                        setEditEmployee({
+                          ...editEmployee,
+                          phone: e.target.value,
+                        })
+                      }
+                      placeholder="Enter phone number"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Job Title</label>
+                    <select
+                      className="form-select"
+                      value={editEmployee.jobTitle}
+                      onChange={(e) =>
+                        setEditEmployee({
+                          ...editEmployee,
+                          jobTitle: e.target.value,
+                        })
+                      }
+                    >
+                      <option value="">Select job title</option>
+                      <option value="Senior Software Engineer">
+                        Senior Software Engineer
+                      </option>
+                      <option value="Software Engineer">
+                        Software Engineer
+                      </option>
+                      <option value="Junior Software Engineer">
+                        Junior Software Engineer
+                      </option>
+                      <option value="Backend Developer">
+                        Backend Developer
+                      </option>
+                      <option value="Frontend Developer">
+                        Frontend Developer
+                      </option>
+                      <option value="Full Stack Developer">
+                        Full Stack Developer
+                      </option>
+                      <option value="DevOps Engineer">DevOps Engineer</option>
+                      <option value="Data Analyst">Data Analyst</option>
+                      <option value="Data Scientist">Data Scientist</option>
+                      <option value="Product Manager">Product Manager</option>
+                      <option value="Project Manager">Project Manager</option>
+                      <option value="Sales Manager">Sales Manager</option>
+                      <option value="Sales Executive">Sales Executive</option>
+                      <option value="Marketing Manager">
+                        Marketing Manager
+                      </option>
+                      <option value="Marketing Specialist">
+                        Marketing Specialist
+                      </option>
+                      <option value="HR Manager">HR Manager</option>
+                      <option value="HR Executive">HR Executive</option>
+                      <option value="Financial Analyst">
+                        Financial Analyst
+                      </option>
+                      <option value="Accountant">Accountant</option>
+                      <option value="Product Designer">Product Designer</option>
+                      <option value="UX Designer">UX Designer</option>
+                      <option value="UI Designer">UI Designer</option>
+                      <option value="Graphic Designer">Graphic Designer</option>
+                    </select>
+                  </div>
+
+                  <div className="form-group form-group-full">
+                    <label className="form-label">Department</label>
+                    <select
+                      className="form-select"
+                      value={editEmployee.department}
+                      onChange={(e) =>
+                        setEditEmployee({
+                          ...editEmployee,
+                          department: e.target.value,
+                        })
+                      }
+                    >
+                      <option value="">Select department</option>
+                      <option value="Engineering">Engineering</option>
+                      <option value="Sales">Sales</option>
+                      <option value="Marketing">Marketing</option>
+                      <option value="Finance">Finance</option>
+                      <option value="HR">HR</option>
+                      <option value="Design">Design</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div className="dialog-footer">
+                <button
+                  className="btn-cancel"
+                  onClick={() => {
+                    setShowEditDialog(false);
+                    setEditEmployee(null);
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="btn-add"
+                  onClick={() => {
+                    if (
+                      editEmployee.name &&
+                      editEmployee.email &&
+                      editEmployee.department
+                    ) {
+                      const updatedEmployees = employees.map((emp) =>
+                        emp.id === editEmployee.id ? editEmployee : emp
+                      );
+                      setEmployees(updatedEmployees);
+                      setSelectedEmployee(editEmployee);
+                      setShowEditDialog(false);
+                      setEditEmployee(null);
+                    } else {
+                      alert("Please fill in all required fields");
+                    }
+                  }}
+                >
+                  Save Changes
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
 
   return (
-    <div className="employee-directory-container">
-      <div className="directory-header">
+    <div className="page-container">
+      <div className="page-header">
         <div>
-          <h1 className="directory-title">Employee Directory</h1>
-          <p className="directory-subtitle">
-            View employee profiles and contact information
-          </p>
+          <h1 className="page-title">Employee Directory</h1>
+          <p className="page-subtitle">View and manage employee profiles</p>
         </div>
+        <button className="btn-primary" onClick={() => setShowAddDialog(true)}>
+          <Plus className="btn-icon" />
+          NEW
+        </button>
       </div>
+
+      {/* Add Employee Dialog */}
+      {showAddDialog && (
+        <div className="dialog-overlay" onClick={() => setShowAddDialog(false)}>
+          <div className="dialog-content" onClick={(e) => e.stopPropagation()}>
+            <div className="dialog-header">
+              <div>
+                <h2 className="dialog-title">Add New Employee</h2>
+                <p className="dialog-description">
+                  Create a new employee profile
+                </p>
+              </div>
+              <button
+                className="dialog-close"
+                onClick={() => setShowAddDialog(false)}
+              >
+                <X className="close-icon" />
+              </button>
+            </div>
+
+            <div className="dialog-body">
+              <div className="form-grid">
+                <div className="form-group">
+                  <label className="form-label">Full Name</label>
+                  <input
+                    type="text"
+                    className="form-input"
+                    value={newEmployee.name}
+                    onChange={(e) =>
+                      setNewEmployee({ ...newEmployee, name: e.target.value })
+                    }
+                    placeholder="Enter full name"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label">Email</label>
+                  <input
+                    type="email"
+                    className="form-input"
+                    value={newEmployee.email}
+                    onChange={(e) =>
+                      setNewEmployee({ ...newEmployee, email: e.target.value })
+                    }
+                    placeholder="Enter email address"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label">Phone</label>
+                  <input
+                    type="tel"
+                    className="form-input"
+                    value={newEmployee.phone}
+                    onChange={(e) =>
+                      setNewEmployee({ ...newEmployee, phone: e.target.value })
+                    }
+                    placeholder="Enter phone number"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label">Job Title</label>
+                  <select
+                    className="form-select"
+                    value={newEmployee.jobTitle}
+                    onChange={(e) =>
+                      setNewEmployee({
+                        ...newEmployee,
+                        jobTitle: e.target.value,
+                      })
+                    }
+                  >
+                    <option value="">Select job title</option>
+                    <option value="Senior Software Engineer">
+                      Senior Software Engineer
+                    </option>
+                    <option value="Software Engineer">Software Engineer</option>
+                    <option value="Junior Software Engineer">
+                      Junior Software Engineer
+                    </option>
+                    <option value="Backend Developer">Backend Developer</option>
+                    <option value="Frontend Developer">
+                      Frontend Developer
+                    </option>
+                    <option value="Full Stack Developer">
+                      Full Stack Developer
+                    </option>
+                    <option value="DevOps Engineer">DevOps Engineer</option>
+                    <option value="Data Analyst">Data Analyst</option>
+                    <option value="Data Scientist">Data Scientist</option>
+                    <option value="Product Manager">Product Manager</option>
+                    <option value="Project Manager">Project Manager</option>
+                    <option value="Sales Manager">Sales Manager</option>
+                    <option value="Sales Executive">Sales Executive</option>
+                    <option value="Marketing Manager">Marketing Manager</option>
+                    <option value="Marketing Specialist">
+                      Marketing Specialist
+                    </option>
+                    <option value="HR Manager">HR Manager</option>
+                    <option value="HR Executive">HR Executive</option>
+                    <option value="Financial Analyst">Financial Analyst</option>
+                    <option value="Accountant">Accountant</option>
+                    <option value="Product Designer">Product Designer</option>
+                    <option value="UX Designer">UX Designer</option>
+                    <option value="UI Designer">UI Designer</option>
+                    <option value="Graphic Designer">Graphic Designer</option>
+                  </select>
+                </div>
+
+                <div className="form-group form-group-full">
+                  <label className="form-label">Department</label>
+                  <select
+                    className="form-select"
+                    value={newEmployee.department}
+                    onChange={(e) =>
+                      setNewEmployee({
+                        ...newEmployee,
+                        department: e.target.value,
+                      })
+                    }
+                  >
+                    <option value="">Select department</option>
+                    <option value="Engineering">Engineering</option>
+                    <option value="Sales">Sales</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="Finance">Finance</option>
+                    <option value="HR">HR</option>
+                    <option value="Design">Design</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div className="dialog-footer">
+              <button
+                className="btn-cancel"
+                onClick={() => {
+                  setShowAddDialog(false);
+                  setNewEmployee({
+                    name: "",
+                    email: "",
+                    phone: "",
+                    jobTitle: "",
+                    department: "",
+                  });
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                className="btn-add"
+                onClick={() => {
+                  if (
+                    newEmployee.name &&
+                    newEmployee.email &&
+                    newEmployee.department
+                  ) {
+                    const newEmp = {
+                      id: `WZ-${1243 + employees.length}`,
+                      name: newEmployee.name,
+                      email: newEmployee.email,
+                      phone: newEmployee.phone || "N/A",
+                      jobTitle: newEmployee.jobTitle || "Not Specified",
+                      department: newEmployee.department,
+                      joinDate: new Date().toISOString().split("T")[0],
+                      attendanceStatus: "absent",
+                    };
+                    setEmployees([...employees, newEmp]);
+                    setShowAddDialog(false);
+                    setNewEmployee({
+                      name: "",
+                      email: "",
+                      phone: "",
+                      jobTitle: "",
+                      department: "",
+                    });
+                  } else {
+                    alert("Please fill in all required fields");
+                  }
+                }}
+              >
+                Add Employee
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="search-container">
         <div className="search-box">
           <Search className="search-icon" />
           <input
             type="text"
-            placeholder="Search employees by name, email, department, or job title"
+            placeholder="Search employees..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="search-input"
@@ -254,7 +660,7 @@ function EmployeeDirectory() {
           <div
             key={employee.id}
             className="employee-card"
-            onClick={() => handleCardClick(employee)}
+            onClick={(e) => handleCardClick(employee, e)}
           >
             <div className="card-status">
               {getStatusIndicator(employee.attendanceStatus)}

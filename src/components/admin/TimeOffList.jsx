@@ -116,13 +116,17 @@ function TimeOffList({ userRole = "Administrator" }) {
 
   const handleApprove = (id) => {
     const currentDate = new Date().toISOString().split('T')[0];
+    const approverName = userRole === "HR Officer" 
+      ? "Lisa Anderson (HR Officer)" 
+      : "Admin User (Administrator)";
+    
     setTimeOffRequests(
       timeOffRequests.map((req) =>
         req.id === id
           ? {
               ...req,
               status: "Approved",
-              approvedBy: "John Smith (Admin)",
+              approvedBy: approverName,
               approvedDate: currentDate,
             }
           : req
@@ -142,13 +146,17 @@ function TimeOffList({ userRole = "Administrator" }) {
     }
 
     const currentDate = new Date().toISOString().split('T')[0];
+    const approverName = userRole === "HR Officer" 
+      ? "Lisa Anderson (HR Officer)" 
+      : "Admin User (Administrator)";
+    
     setTimeOffRequests(
       timeOffRequests.map((req) =>
         req.id === rejectingRequestId
           ? {
               ...req,
               status: "Rejected",
-              approvedBy: "John Smith (Admin)",
+              approvedBy: approverName,
               approvedDate: currentDate,
               rejectionReason: rejectionReason,
             }
@@ -352,13 +360,15 @@ function TimeOffList({ userRole = "Administrator" }) {
         <div className="timeoff-card-header">
           <div className="header-left">
             <h2 className="timeoff-card-title">Time Off Management</h2>
-            <Button
-              variant="primary"
-              size="small"
-              onClick={() => setShowNewDialog(true)}
-            >
-              <Plus className="btn-icon" /> NEW
-            </Button>
+            {userRole !== "HR Officer" && (
+              <Button
+                variant="primary"
+                size="small"
+                onClick={() => setShowNewDialog(true)}
+              >
+                <Plus className="btn-icon" /> NEW
+              </Button>
+            )}
           </div>
           <div className="search-wrapper">
             <Search className="search-icon" />
