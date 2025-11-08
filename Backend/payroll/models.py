@@ -91,7 +91,7 @@ class Payslip(models.Model):
         db_table = 'payroll_payslip'
         unique_together = ['payrun', 'employee']
         indexes = [
-            Index(fields=['employee', '-payrun__month']),
+            Index(fields=['employee', 'payrun']),
             Index(fields=['payrun']),
             Index(fields=['fingerprint']),
         ]

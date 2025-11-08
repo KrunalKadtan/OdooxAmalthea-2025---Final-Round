@@ -66,8 +66,8 @@ class OvertimeRecord(models.Model):
     end_time = models.TimeField()
     hours_worked = models.DecimalField(max_digits=4, decimal_places=2)
     
-    # Face verification
-    face_image = models.ImageField(upload_to='overtime_proofs/%Y/%m/%d/', null=True, blank=True)
+    # Face verification (image upload disabled - can be enabled by installing Pillow)
+    # face_image = models.ImageField(upload_to='overtime_proofs/%Y/%m/%d/', null=True, blank=True)
     image_timestamp = models.DateTimeField(null=True, blank=True)
     face_verified = models.BooleanField(default=False)
     verification_confidence = models.DecimalField(max_digits=5, decimal_places=2, null=True)

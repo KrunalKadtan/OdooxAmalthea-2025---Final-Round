@@ -23,6 +23,7 @@ wheels/
 # Virtual Environment
 venv/
 env/
+.env.example
 ENV/
 .venv
 
