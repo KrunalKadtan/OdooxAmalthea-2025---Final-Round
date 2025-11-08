@@ -35,7 +35,7 @@ function App() {
       case "employees":
         return <EmployeesPage />;
       case "profile":
-        return <UserProfile userName={userName} />;
+        return <UserProfile userName={userName} userRole={userRole} />;
       case "dashboard":
         return (
           <BlankPage title="Dashboard" subtitle="Dashboard page coming soon" />

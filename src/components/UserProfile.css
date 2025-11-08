@@ -414,3 +414,179 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Salary Info Styles */
+.salary-content {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.salary-basic-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.salary-wage-section,
+.salary-work-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.wage-item {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.wage-label {
+  font-size: 14px;
+  font-weight: 500;
+  min-width: 120px;
+  color: #1f2937;
+}
+
+.wage-value {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.wage-amount {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.wage-period {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.work-item {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.work-label {
+  font-size: 14px;
+  font-weight: 500;
+  min-width: 200px;
+  color: #1f2937;
+}
+
+.work-input {
+  width: 96px;
+  padding: 8px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #f9fafb;
+}
+
+.work-input-group {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.work-unit {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.salary-details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.salary-components,
+.salary-deductions {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 16px 0;
+}
+
+.component-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.component-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.component-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.component-desc {
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.component-inputs {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.component-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #f9fafb;
+}
+
+.component-unit {
+  font-size: 14px;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+.component-percent {
+  width: 96px;
+  padding: 8px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #f9fafb;
+}
+
+.deduction-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@media (max-width: 1024px) {
+  .salary-basic-info {
+    grid-template-columns: 1fr;
+  }
+
+  .salary-details-grid {
+    grid-template-columns: 1fr;
+  }
+}
