@@ -36,13 +36,6 @@ function Sidebar({ currentView, onNavigate }) {
           </button>
         ))}
       </nav>
-
-      <div className="sidebar-footer">
-        <button className="logout-btn">
-          <span className="nav-icon">🚪</span>
-          Logout
-        </button>
-      </div>
     </div>
   );
 }

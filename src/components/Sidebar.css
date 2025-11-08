@@ -72,29 +72,3 @@
 .nav-icon {
   font-size: 16px;
 }
-
-.sidebar-footer {
-  padding: 16px;
-  border-top: 1px solid #e5e7eb;
-}
-
-.logout-btn {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 12px;
-  background: transparent;
-  border: none;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #dc2626;
-  cursor: pointer;
-  transition: all 0.2s;
-  width: 100%;
-  text-align: left;
-}
-
-.logout-btn:hover {
-  background: #fee2e2;
-}

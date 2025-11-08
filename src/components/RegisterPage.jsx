@@ -11,14 +11,22 @@ function RegisterPage({ onRegister, onSwitchToLogin }) {
     confirmPassword: '',
     logo: null,
   });
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match!');
+      setToastMessage('Passwords do not match!');
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 3000);
       return;
     }
-    onRegister(formData);
+    setToastMessage('Registration successful!');
+    setShowToast(true);
+    setTimeout(() => {
+      onRegister(formData);
+    }, 1500);
   };
 
   const handleLogoUpload = (e) => {
@@ -160,6 +168,17 @@ function RegisterPage({ onRegister, onSwitchToLogin }) {
           </p>
         </div>
       </div>
+
+      {/* Toast Notification */}
+      {showToast && (
+        <div className={`toast-notification ${toastMessage.includes('not match') ? 'toast-error' : ''}`}>
+          <div className="toast-icon">{toastMessage.includes('not match') ? '✗' : '✓'}</div>
+          <div className="toast-content">
+            <p className="toast-title">{toastMessage.includes('not match') ? 'Error' : 'Success'}</p>
+            <p className="toast-message">{toastMessage}</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

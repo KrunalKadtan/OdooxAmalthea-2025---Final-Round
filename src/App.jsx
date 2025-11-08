@@ -4,30 +4,28 @@ import RegisterPage from "./components/RegisterPage";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import EmployeesPage from "./components/EmployeesPage";
-import BlankPage from "./components/BlankPage";
 import UserProfile from "./components/UserProfile";
 import UserSettings from "./components/UserSettings";
 import AttendanceList from "./components/AttendanceList";
 import TimeOffList from "./components/TimeOffList";
 import PayrollPage from "./components/PayrollPage";
 import ReportsPage from "./components/ReportsPage";
+import AdminDashboard from "./components/AdminDashboard";
 import "./App.css";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("login");
-  const [currentView, setCurrentView] = useState("employees");
+  const [currentView, setCurrentView] = useState("dashboard");
   const [userName] = useState("Admin User");
   const [userRole] = useState("Administrator");
 
   const handleLogin = (email, password) => {
     console.log("Login:", { email, password });
-    alert("Login successful!");
     setCurrentPage("admin");
   };
 
   const handleRegister = (data) => {
     console.log("Register:", data);
-    alert("Registration successful!");
     setCurrentPage("login");
   };
 
@@ -42,9 +40,7 @@ function App() {
       case "profile":
         return <UserProfile userName={userName} userRole={userRole} />;
       case "dashboard":
-        return (
-          <BlankPage title="Dashboard" subtitle="Dashboard page coming soon" />
-        );
+        return <AdminDashboard onNavigate={handleNavigate} />;
       case "attendance":
         return <AttendanceList userRole={userRole} />;
       case "time-off":

@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
-import './LoginPage.css';
+import React, { useState } from "react";
+import "./LoginPage.css";
 
 function LoginPage({ onLogin, onSwitchToRegister }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showToast, setShowToast] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onLogin(email, password);
+    setShowToast(true);
+    setTimeout(() => {
+      onLogin(email, password);
+    }, 1500);
   };
 
   return (
@@ -64,13 +68,28 @@ function LoginPage({ onLogin, onSwitchToRegister }) {
 
         <div className="footer-text">
           <p>
-            Don't have an account?{' '}
-            <button type="button" className="link-button" onClick={onSwitchToRegister}>
+            Don't have an account?{" "}
+            <button
+              type="button"
+              className="link-button"
+              onClick={onSwitchToRegister}
+            >
               Register here
             </button>
           </p>
         </div>
       </div>
+
+      {/* Success Toast */}
+      {showToast && (
+        <div className="toast-notification">
+          <div className="toast-icon">✓</div>
+          <div className="toast-content">
+            <p className="toast-title">Login Successful!</p>
+            <p className="toast-message">Redirecting to dashboard...</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
