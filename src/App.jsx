@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import LoginPage from "./components/LoginPage";
 import RegisterPage from "./components/RegisterPage";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import EmployeesPage from "./components/EmployeesPage";
 import BlankPage from "./components/BlankPage";
+import UserProfile from "./components/UserProfile";
 import "./App.css";
 
 function App() {
@@ -16,14 +17,12 @@ function App() {
   const handleLogin = (email, password) => {
     console.log("Login:", { email, password });
     alert("Login successful!");
-    // After successful login, redirect to admin portal
     setCurrentPage("admin");
   };
 
   const handleRegister = (data) => {
     console.log("Register:", data);
     alert("Registration successful!");
-    // After successful registration, redirect to login
     setCurrentPage("login");
   };
 
@@ -35,6 +34,8 @@ function App() {
     switch (currentView) {
       case "employees":
         return <EmployeesPage />;
+      case "profile":
+        return <UserProfile userName={userName} />;
       case "dashboard":
         return (
           <BlankPage title="Dashboard" subtitle="Dashboard page coming soon" />
@@ -90,7 +91,11 @@ function App() {
     <div className="app-container">
       <Sidebar currentView={currentView} onNavigate={handleNavigate} />
       <div className="main-content">
-        <Header userName={userName} userRole={userRole} />
+        <Header
+          userName={userName}
+          userRole={userRole}
+          onNavigate={handleNavigate}
+        />
         <main className="content-area">{renderView()}</main>
       </div>
     </div>
