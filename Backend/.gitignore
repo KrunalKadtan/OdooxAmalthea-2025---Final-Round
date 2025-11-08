@@ -1,0 +1,69 @@
+# Python
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+/media
+/staticfiles
+
+# Environment variables
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Migrations (optional - uncomment if you want to ignore)
+# */migrations/*.py
+# !*/migrations/__init__.py
+
+# Cache
+__pycache__/
+*.pyc
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Coverage
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+
+# pytest
+.pytest_cache/
