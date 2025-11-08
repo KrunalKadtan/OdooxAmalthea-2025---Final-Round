@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { Search, Plus, Plane, X, Edit } from "lucide-react";
 import "./EmployeeDirectory.css";
 
-function EmployeeDirectory() {
+function EmployeeDirectory({ userRole = "Employee" }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [editEmployee, setEditEmployee] = useState(null);
+  
+  // Check if user has edit access (Admin or HR Officer)
+  const hasEditAccess = userRole === "Administrator" || userRole === "HR Officer";
   const [newEmployee, setNewEmployee] = useState({
     name: "",
     email: "",
@@ -173,6 +176,18 @@ function EmployeeDirectory() {
             <h1 className="page-title">{selectedEmployee.name}</h1>
             <p className="page-subtitle">Employee Profile</p>
           </div>
+          {hasEditAccess && (
+            <button
+              className="btn-edit"
+              onClick={() => {
+                setEditEmployee({ ...selectedEmployee });
+                setShowEditDialog(true);
+              }}
+            >
+              <Edit className="btn-icon" />
+              Edit Profile
+            </button>
+          )}
         </div>
 
         <div className="profile-grid">
@@ -436,8 +451,16 @@ function EmployeeDirectory() {
       <div className="page-header">
         <div>
           <h1 className="page-title">Employee Directory</h1>
-          <p className="page-subtitle">View employee profiles</p>
+          <p className="page-subtitle">
+            {hasEditAccess ? "View and manage employee profiles" : "View employee profiles"}
+          </p>
         </div>
+        {hasEditAccess && (
+          <button className="btn-primary" onClick={() => setShowAddDialog(true)}>
+            <Plus className="btn-icon" />
+            NEW
+          </button>
+        )}
       </div>
 
       {/* Add Employee Dialog */}

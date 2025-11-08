@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  LayoutDashboard,
-  Users,
-  Calendar,
-  ClipboardList,
-} from "lucide-react";
+import { Home, Users, Calendar, FileText, Building2 } from "lucide-react";
 import "./Sidebar.css";
 
 function HRSidebar({ currentView, onNavigate }) {
@@ -12,11 +7,11 @@ function HRSidebar({ currentView, onNavigate }) {
     {
       id: "hr-dashboard",
       label: "Dashboard",
-      icon: LayoutDashboard,
+      icon: Home,
     },
     {
       id: "employee-directory",
-      label: "Employee Directory",
+      label: "Employees",
       icon: Users,
     },
     {
@@ -27,29 +22,20 @@ function HRSidebar({ currentView, onNavigate }) {
     {
       id: "time-off",
       label: "Time Off",
-      icon: ClipboardList,
+      icon: FileText,
     },
   ];
 
   return (
     <aside className="sidebar">
       <div className="sidebar-header">
-        <div className="logo">
-          <svg
-            className="logo-icon"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-          >
-            <rect x="3" y="3" width="7" height="7" />
-            <rect x="14" y="3" width="7" height="7" />
-            <rect x="14" y="14" width="7" height="7" />
-            <rect x="3" y="14" width="7" height="7" />
-          </svg>
-          <span className="logo-text">WorkZen</span>
+        <div className="logo-container">
+          <Building2 className="logo-icon" />
+          <div className="logo-content">
+            <h1 className="logo-text">WorkZen</h1>
+            <p className="logo-subtitle">HRMS Platform</p>
+          </div>
         </div>
-        <div className="portal-badge hr">HR Portal</div>
       </div>
 
       <nav className="sidebar-nav">

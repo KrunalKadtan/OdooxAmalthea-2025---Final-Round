@@ -83,7 +83,7 @@ function App() {
       case "employees":
         return <EmployeesPage />;
       case "employee-directory":
-        return <EmployeeDirectory />;
+        return <EmployeeDirectory userRole={userRole} />;
       case "profile":
         return <UserProfile userName={userName} userRole={userRole} />;
       case "dashboard":
