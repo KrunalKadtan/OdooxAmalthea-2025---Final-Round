@@ -168,16 +168,50 @@ export const api = {
   },
 
   // ============ DASHBOARD ============
-  getDashboard: async () => {
-    const response = await fetch(`${API_BASE_URL}/auth/dashboard/`, {
-      headers: getAuthHeaders(),
-    });
+  getDashboardData: async () => {
+    try {
+      // Fetch all necessary data in parallel
+      const [attendance, leaves, payslips, leaveBalance] = await Promise.all([
+        api.getMyAttendance().catch(() => []),
+        api.getMyLeaves().catch(() => []),
+        api.getMyPayslips().catch(() => []),
+        api.getLeaveBalance().catch(() => null),
+      ]);
 
-    if (!response.ok) {
-      throw new Error('Failed to fetch dashboard');
+      // Calculate attendance stats for current month
+      const currentMonth = new Date().getMonth() + 1;
+      const currentYear = new Date().getFullYear();
+      const thisMonthAttendance = attendance.filter((a: any) => {
+        const date = new Date(a.date);
+        return date.getMonth() + 1 === currentMonth && date.getFullYear() === currentYear;
+      });
+
+      const attendanceStats = {
+        present: thisMonthAttendance.filter((a: any) => a.status === 'Present').length,
+        absent: thisMonthAttendance.filter((a: any) => a.status === 'Absent').length,
+        total: thisMonthAttendance.length,
+      };
+
+      // Calculate leave stats
+      const pendingLeaves = leaves.filter((l: any) => l.status === 'Pending').length;
+      const approvedLeaves = leaves.filter((l: any) => l.status === 'Approved').length;
+
+      // Get recent payslips (last 3)
+      const recentPayslips = payslips.slice(0, 3);
+
+      return {
+        attendance: attendanceStats,
+        leaves: {
+          pending: pendingLeaves,
+          approved: approvedLeaves,
+          balance: leaveBalance,
+        },
+        payslips: recentPayslips,
+      };
+    } catch (error) {
+      console.error('Error fetching dashboard data:', error);
+      throw error;
     }
-
-    return response.json();
   },
 
   // ============ ATTENDANCE ============
@@ -195,7 +229,7 @@ export const api = {
     return response.json();
   },
 
-  getMyAttendance: async (): Promise<Attendance[]> => {
+  getMyAttendance: async (month?: number, year?: number): Promise<any> => {
     const response = await fetch(`${API_BASE_URL}/attendance/my/`, {
       headers: getAuthHeaders(),
     });
@@ -204,7 +238,34 @@ export const api = {
       throw new Error('Failed to fetch attendance');
     }
 
-    return response.json();
+    const data = await response.json();
+    return Array.isArray(data) ? data : [];
+  },
+
+  getAttendanceStatistics: async (month?: number, year?: number): Promise<any> => {
+    // Calculate statistics from attendance data
+    const response = await fetch(`${API_BASE_URL}/attendance/my/`, {
+      headers: getAuthHeaders(),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch attendance statistics');
+    }
+
+    const data = await response.json();
+    const records = Array.isArray(data) ? data : [];
+    
+    // Calculate statistics
+    const stats = {
+      total_days: records.length,
+      present: records.filter((r: any) => r.status === 'Present').length,
+      absent: records.filter((r: any) => r.status === 'Absent').length,
+      leave: records.filter((r: any) => r.status === 'Leave').length,
+      half_day: records.filter((r: any) => r.status === 'Half-Day').length,
+      wfh: records.filter((r: any) => r.status === 'Work-from-Home').length,
+    };
+    
+    return stats;
   },
 
   // ============ LEAVES ============
@@ -221,13 +282,14 @@ export const api = {
     });
 
     if (!response.ok) {
-      throw new Error('Failed to apply leave');
+      const error = await response.json().catch(() => ({ error: 'Failed to apply leave' }));
+      throw new Error(error.error || error.detail || 'Failed to apply leave');
     }
 
     return response.json();
   },
 
-  getMyLeaves: async (): Promise<Leave[]> => {
+  getMyLeaves: async (): Promise<any[]> => {
     const response = await fetch(`${API_BASE_URL}/leaves/my/`, {
       headers: getAuthHeaders(),
     });
@@ -236,7 +298,37 @@ export const api = {
       throw new Error('Failed to fetch leaves');
     }
 
-    return response.json();
+    const data = await response.json();
+    return Array.isArray(data) ? data : [];
+  },
+
+  getLeaveBalance: async (): Promise<any> => {
+    // Calculate leave balance from leave records
+    const leaves = await api.getMyLeaves();
+    
+    const currentYear = new Date().getFullYear();
+    const thisYearLeaves = leaves.filter((leave: any) => {
+      const leaveYear = new Date(leave.start_date).getFullYear();
+      return leaveYear === currentYear && leave.status === 'Approved';
+    });
+
+    const sickDays = thisYearLeaves
+      .filter((l: any) => l.leave_type === 'Sick')
+      .reduce((sum: number, l: any) => sum + (l.total_days || 0), 0);
+    
+    const casualDays = thisYearLeaves
+      .filter((l: any) => l.leave_type === 'Casual')
+      .reduce((sum: number, l: any) => sum + (l.total_days || 0), 0);
+    
+    const vacationDays = thisYearLeaves
+      .filter((l: any) => l.leave_type === 'Vacation')
+      .reduce((sum: number, l: any) => sum + (l.total_days || 0), 0);
+
+    return {
+      sick: { total: 10, used: sickDays, remaining: 10 - sickDays },
+      casual: { total: 12, used: casualDays, remaining: 12 - casualDays },
+      vacation: { total: 15, used: vacationDays, remaining: 15 - vacationDays },
+    };
   },
 
   // ============ PAYROLL ============

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -7,7 +7,9 @@ import { Textarea } from '../ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 import { Badge } from '../ui/badge';
-import { Calendar, Send } from 'lucide-react';
+import { Calendar, Send, Loader2, CheckCircle } from 'lucide-react';
+import { api } from '../../services/api';
+import { toast } from 'sonner';
 
 export function ApplyLeave() {
   const [formData, setFormData] = useState({
@@ -16,18 +18,65 @@ export function ApplyLeave() {
     leaveType: '',
     reason: '',
   });
+  const [pastApplications, setPastApplications] = useState<any[]>([]);
+  const [leaveBalance, setLeaveBalance] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const pastApplications = [
-    { id: 1, dates: 'Nov 4, 2025', type: 'Sick Leave', days: 1, status: 'Approved', appliedOn: 'Nov 1, 2025' },
-    { id: 2, dates: 'Oct 15-17, 2025', type: 'Vacation', days: 3, status: 'Approved', appliedOn: 'Oct 1, 2025' },
-    { id: 3, dates: 'Sep 20, 2025', type: 'Personal', days: 1, status: 'Rejected', appliedOn: 'Sep 18, 2025' },
-    { id: 4, dates: 'Aug 10-14, 2025', type: 'Vacation', days: 5, status: 'Approved', appliedOn: 'Jul 25, 2025' },
-  ];
+  useEffect(() => {
+    fetchLeaveData();
+  }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const fetchLeaveData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const [leaves, balance] = await Promise.all([
+        api.getMyLeaves(),
+        api.getLeaveBalance()
+      ]);
+
+      setPastApplications(leaves);
+      setLeaveBalance(balance);
+    } catch (err: any) {
+      console.error('Error fetching leave data:', err);
+      setError(err.message || 'Failed to load leave data');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert('Leave application submitted successfully!');
-    setFormData({ startDate: '', endDate: '', leaveType: '', reason: '' });
+    
+    if (!formData.leaveType) {
+      toast.error('Please select a leave type');
+      return;
+    }
+
+    try {
+      setSubmitting(true);
+      
+      await api.applyLeave({
+        leave_type: formData.leaveType,
+        start_date: formData.startDate,
+        end_date: formData.endDate,
+        reason: formData.reason,
+      });
+
+      toast.success('Leave application submitted successfully!');
+      setFormData({ startDate: '', endDate: '', leaveType: '', reason: '' });
+      
+      // Refresh leave data
+      fetchLeaveData();
+    } catch (err: any) {
+      console.error('Error submitting leave:', err);
+      toast.error(err.message || 'Failed to submit leave application');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const getStatusBadge = (status: string) => {
@@ -43,12 +92,50 @@ export function ApplyLeave() {
     }
   };
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  };
+
+  const formatDateRange = (start: string, end: string) => {
+    if (start === end) {
+      return formatDate(start);
+    }
+    return `${formatDate(start)} - ${formatDate(end)}`;
+  };
+
+  if (loading) {
+    return (
+      <div className="p-6 flex items-center justify-center min-h-[400px]">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading leave data...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="p-6 space-y-6">
       <div>
         <h1>Apply for Time-Off</h1>
         <p className="text-muted-foreground">Submit your leave request for approval</p>
       </div>
+
+      {error && (
+        <Card className="border-red-200 bg-red-50">
+          <CardContent className="pt-6">
+            <p className="text-red-700">{error}</p>
+            <Button 
+              onClick={fetchLeaveData}
+              variant="outline"
+              className="mt-4"
+            >
+              Retry
+            </Button>
+          </CardContent>
+        </Card>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card className="lg:col-span-1">
@@ -57,18 +144,33 @@ export function ApplyLeave() {
             <CardDescription>Your available time-off</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">
-              <p className="text-sm text-muted-foreground">Annual Leave</p>
-              <h2 className="mt-1 text-primary">10 days</h2>
-            </div>
-            <div className="p-4 rounded-lg bg-secondary">
-              <p className="text-sm text-muted-foreground">Sick Leave</p>
-              <h2 className="mt-1">7 days</h2>
-            </div>
-            <div className="p-4 rounded-lg bg-secondary">
-              <p className="text-sm text-muted-foreground">Personal Leave</p>
-              <h2 className="mt-1">3 days</h2>
-            </div>
+            {leaveBalance ? (
+              <>
+                <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">
+                  <p className="text-sm text-muted-foreground">Vacation Leave</p>
+                  <h2 className="mt-1 text-primary">{leaveBalance.vacation?.remaining || 0} days</h2>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Used: {leaveBalance.vacation?.used || 0} / {leaveBalance.vacation?.total || 0}
+                  </p>
+                </div>
+                <div className="p-4 rounded-lg bg-secondary">
+                  <p className="text-sm text-muted-foreground">Sick Leave</p>
+                  <h2 className="mt-1">{leaveBalance.sick?.remaining || 0} days</h2>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Used: {leaveBalance.sick?.used || 0} / {leaveBalance.sick?.total || 0}
+                  </p>
+                </div>
+                <div className="p-4 rounded-lg bg-secondary">
+                  <p className="text-sm text-muted-foreground">Casual Leave</p>
+                  <h2 className="mt-1">{leaveBalance.casual?.remaining || 0} days</h2>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Used: {leaveBalance.casual?.used || 0} / {leaveBalance.casual?.total || 0}
+                  </p>
+                </div>
+              </>
+            ) : (
+              <p className="text-sm text-muted-foreground">Loading balance...</p>
+            )}
           </CardContent>
         </Card>
 
@@ -109,10 +211,9 @@ export function ApplyLeave() {
                     <SelectValue placeholder="Select leave type" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="sick">Sick Leave</SelectItem>
-                    <SelectItem value="vacation">Vacation Leave</SelectItem>
-                    <SelectItem value="personal">Personal Leave</SelectItem>
-                    <SelectItem value="emergency">Emergency Leave</SelectItem>
+                    <SelectItem value="Sick">Sick Leave</SelectItem>
+                    <SelectItem value="Casual">Casual Leave</SelectItem>
+                    <SelectItem value="Vacation">Vacation Leave</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -129,9 +230,18 @@ export function ApplyLeave() {
                 />
               </div>
 
-              <Button type="submit" className="w-full">
-                <Send className="h-4 w-4 mr-2" />
-                Submit Leave Application
+              <Button type="submit" className="w-full" disabled={submitting}>
+                {submitting ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Submitting...
+                  </>
+                ) : (
+                  <>
+                    <Send className="h-4 w-4 mr-2" />
+                    Submit Leave Application
+                  </>
+                )}
               </Button>
             </form>
           </CardContent>
@@ -155,15 +265,23 @@ export function ApplyLeave() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {pastApplications.map((application) => (
-                <TableRow key={application.id}>
-                  <TableCell>{application.dates}</TableCell>
-                  <TableCell>{application.type}</TableCell>
-                  <TableCell>{application.days}</TableCell>
-                  <TableCell>{application.appliedOn}</TableCell>
-                  <TableCell>{getStatusBadge(application.status)}</TableCell>
+              {pastApplications.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
+                    No leave applications found
+                  </TableCell>
                 </TableRow>
-              ))}
+              ) : (
+                pastApplications.map((application) => (
+                  <TableRow key={application.id}>
+                    <TableCell>{formatDateRange(application.start_date, application.end_date)}</TableCell>
+                    <TableCell>{application.leave_type}</TableCell>
+                    <TableCell>{application.total_days}</TableCell>
+                    <TableCell>{formatDate(application.applied_at)}</TableCell>
+                    <TableCell>{getStatusBadge(application.status)}</TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         </CardContent>

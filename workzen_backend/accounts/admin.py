@@ -4,9 +4,10 @@ from .models import User
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
-    list_display = ['username', 'email', 'role', 'department', 'status', 'date_joined']
+    list_display = ['username', 'email', 'role', 'department', 'status', 'join_date']
     list_filter = ['role', 'status', 'department']
     search_fields = ['username', 'email', 'first_name', 'last_name']
+    readonly_fields = ['join_date', 'date_joined']
     
     fieldsets = BaseUserAdmin.fieldsets + (
         ('Employee Information', {
@@ -16,6 +17,6 @@ class UserAdmin(BaseUserAdmin):
     
     add_fieldsets = BaseUserAdmin.add_fieldsets + (
         ('Employee Information', {
-            'fields': ('role', 'department', 'designation', 'salary', 'phone')
+            'fields': ('role', 'department', 'designation', 'salary', 'phone', 'status')
         }),
     )

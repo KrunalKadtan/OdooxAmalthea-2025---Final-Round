@@ -66,7 +66,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'workzen_db',  # ← Your database name
         'USER': 'postgres',
-        'PASSWORD': 'vrajesh123',  # ← Your password
+        'PASSWORD': 'aaravp_2408',  # ← Your password
         'HOST': 'localhost',
         'PORT': '5432',
     }

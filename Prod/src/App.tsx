@@ -51,15 +51,22 @@ export default function App() {
         const mappedRole = roleMap[user.role] || 'employee';
         setUserRole(mappedRole);
         
-        // Set initial view based on role
-        const viewMap: { [key: string]: string } = {
-          'admin': 'admin-dashboard',
-          'hr': 'hr-dashboard',
-          'payroll': 'payroll-dashboard',
-          'employee': 'employee-dashboard',
-        };
+        // Restore last view from localStorage or use default based on role
+        const savedView = localStorage.getItem('currentView');
         
-        setCurrentView(viewMap[mappedRole] || 'employee-dashboard');
+        if (savedView) {
+          setCurrentView(savedView);
+        } else {
+          // Set initial view based on role
+          const viewMap: { [key: string]: string } = {
+            'admin': 'admin-dashboard',
+            'hr': 'hr-dashboard',
+            'payroll': 'payroll-dashboard',
+            'employee': 'employee-dashboard',
+          };
+          
+          setCurrentView(viewMap[mappedRole] || 'employee-dashboard');
+        }
       }
       
       setLoading(false);
@@ -128,10 +135,13 @@ export default function App() {
 };
   const handleNavigate = (view: string) => {
     setCurrentView(view);
+    // Save current view to localStorage
+    localStorage.setItem('currentView', view);
   };
 
   const handleLogout = () => {
     api.logout();
+    localStorage.removeItem('currentView'); // Clear saved view on logout
     setIsAuthenticated(false);
     setCurrentUser(null);
     setUserName('');
