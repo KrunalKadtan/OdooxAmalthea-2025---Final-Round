@@ -1,0 +1,166 @@
+.register-container {
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, rgba(102, 126, 234, 0.05), rgba(102, 126, 234, 0.1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.register-card {
+  width: 100%;
+  max-width: 448px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+  border: 1px solid #e5e7eb;
+  padding: 32px;
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.company-input-wrapper {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.company-input {
+  flex: 7;
+}
+
+.upload-button {
+  flex: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  background: #f9fafb;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.upload-button:hover {
+  background: white;
+  border-color: #6366f1;
+}
+
+.upload-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.logo-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  color: #6366f1;
+}
+
+.logo-container h1 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #6366f1;
+}
+
+.subtitle {
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: all 0.2s;
+  background: #f9fafb;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  background: white;
+}
+
+.form-group input::placeholder {
+  color: #d1d5db;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 12px;
+  background: #6366f1;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 8px;
+}
+
+.btn-primary:hover {
+  background: #4f46e5;
+}
+
+.footer-text {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.footer-text p {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.link-button {
+  background: none;
+  border: none;
+  color: #6366f1;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: none;
+  padding: 0;
+}
+
+.link-button:hover {
+  text-decoration: underline;
+}
