@@ -12,4 +12,8 @@ urlpatterns = [
     
     # User Profile
     path('profile/', views.get_user_profile, name='get-profile'),
+    path('profile/update/', views.update_user_profile, name='update-profile'),
+    
+    # User Management
+    path('list/', views.list_users, name='list-users'),
 ]

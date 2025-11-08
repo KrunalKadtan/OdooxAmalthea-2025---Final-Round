@@ -9,16 +9,21 @@ import re
 
 class UserSerializer(serializers.ModelSerializer):
     """Serializer for User model"""
+    full_name = serializers.SerializerMethodField()
+    join_date = serializers.DateTimeField(source='date_joined', read_only=True)
     
     class Meta:
         model = User
         fields = [
-            'id', 'username', 'email', 'first_name', 'last_name',
+            'id', 'username', 'email', 'first_name', 'last_name', 'full_name',
             'role', 'designation', 'department', 'phone_number',
             'date_of_birth', 'basic_salary', 'password_changed_on_first_login',
-            '_id'
+            '_id', 'date_joined', 'join_date', 'is_active'
         ]
-        read_only_fields = ['id', '_id']
+        read_only_fields = ['id', '_id', 'date_joined', 'join_date']
+    
+    def get_full_name(self, obj):
+        return obj.get_full_name() or obj.username
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):

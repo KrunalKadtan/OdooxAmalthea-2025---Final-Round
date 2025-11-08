@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './Header.css';
 
-function Header({ userName, userRole, onNavigate }) {
+function Header({ userName, userRole, onNavigate, onLogout }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -23,6 +23,13 @@ function Header({ userName, userRole, onNavigate }) {
   const handleProfileClick = () => {
     setShowDropdown(false);
     onNavigate('profile');
+  };
+
+  const handleLogout = () => {
+    setShowDropdown(false);
+    if (window.confirm('Are you sure you want to logout?')) {
+      onLogout();
+    }
   };
 
   return (
@@ -50,6 +57,10 @@ function Header({ userName, userRole, onNavigate }) {
               <button className="dropdown-item" onClick={handleProfileClick}>
                 <span className="dropdown-icon">👤</span>
                 My Profile
+              </button>
+              <button className="dropdown-item" onClick={handleLogout}>
+                <span className="dropdown-icon">🚪</span>
+                Logout
               </button>
             </div>
           )}

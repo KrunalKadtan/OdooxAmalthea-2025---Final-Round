@@ -47,17 +47,27 @@ def login_user(request):
     """
     Login user and return JWT tokens
     POST /api/auth/login/
+    Accepts either username or email
     """
-    username = request.data.get('username')
+    username_or_email = request.data.get('username') or request.data.get('email')
     password = request.data.get('password')
     
-    if not username or not password:
+    if not username_or_email or not password:
         return Response({
-            'error': 'Username and password are required',
+            'error': 'Username/Email and password are required',
             'status': 400
         }, status=status.HTTP_400_BAD_REQUEST)
     
-    user = authenticate(username=username, password=password)
+    # Try to authenticate with username first
+    user = authenticate(username=username_or_email, password=password)
+    
+    # If failed, try to find user by email and authenticate
+    if user is None and '@' in username_or_email:
+        try:
+            user_obj = User.objects.get(email=username_or_email)
+            user = authenticate(username=user_obj.username, password=password)
+        except User.DoesNotExist:
+            pass
     
     if user is not None:
         refresh = RefreshToken.for_user(user)
@@ -73,6 +83,7 @@ def login_user(request):
                     'role': user.role,
                     'first_name': user.first_name,
                     'last_name': user.last_name,
+                    'full_name': user.get_full_name(),
                     'password_changed_on_first_login': user.password_changed_on_first_login,
                     '_id': user._id
                 }
@@ -164,3 +175,27 @@ def update_user_profile(request):
         'error': serializer.errors,
         'status': 400
     }, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def list_users(request):
+    """
+    List all users (admin/hr only)
+    GET /api/users/list/
+    """
+    # Check if user has permission
+    if request.user.role not in ['admin', 'hr_officer']:
+        return Response({
+            'error': 'You do not have permission to view all users',
+            'status': 403
+        }, status=status.HTTP_403_FORBIDDEN)
+    
+    users = User.objects.all()
+    serializer = UserSerializer(users, many=True)
+    
+    return Response({
+        'success': True,
+        'data': serializer.data,
+        'count': users.count()
+    }, status=status.HTTP_200_OK)
