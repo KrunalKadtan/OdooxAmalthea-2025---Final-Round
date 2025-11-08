@@ -10,6 +10,7 @@ import UserSettings from "./components/UserSettings";
 import AttendanceList from "./components/AttendanceList";
 import TimeOffList from "./components/TimeOffList";
 import PayrollPage from "./components/PayrollPage";
+import ReportsPage from "./components/ReportsPage";
 import "./App.css";
 
 function App() {
@@ -51,9 +52,7 @@ function App() {
       case "payroll":
         return <PayrollPage />;
       case "reports":
-        return (
-          <BlankPage title="Reports" subtitle="Reports page coming soon" />
-        );
+        return <ReportsPage userRole={userRole} />;
       case "settings":
         return <UserSettings />;
       default:
