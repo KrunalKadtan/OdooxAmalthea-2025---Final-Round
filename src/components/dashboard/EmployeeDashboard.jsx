@@ -61,15 +61,10 @@ function EmployeeDashboard({ userName = "Sarah Johnson", onNavigate }) {
       {/* Quick Action Card */}
       <div className="quick-action-card">
         <h2 className="quick-action-title">Quick Action</h2>
-        <p className="quick-action-subtitle">Mark your attendance for today</p>
-        <Button
-          size="large"
-          className="btn-mark-attendance"
-          onClick={handleMarkAttendance}
-        >
+        <button className="btn-mark-attendance" onClick={handleMarkAttendance}>
           <CheckCircle2 className="btn-icon-svg" />
           Mark My Attendance
-        </Button>
+        </button>
       </div>
 
       {/* Dashboard Grid */}

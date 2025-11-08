@@ -253,3 +253,24 @@
 .btn-confirm:hover {
   background: #b91c1c;
 }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header {
+    padding: 0 16px;
+  }
+
+  .user-info {
+    display: none;
+  }
+
+  .user-section {
+    padding-left: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .notification-btn {
+    padding: 6px;
+  }
+}

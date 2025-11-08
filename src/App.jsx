@@ -4,9 +4,6 @@ import LoginPage from "./components/auth/LoginPage";
 import RegisterPage from "./components/auth/RegisterPage";
 // Layout
 import Sidebar from "./components/layout/Sidebar";
-import EmployeeSidebar from "./components/layout/EmployeeSidebar";
-import HRSidebar from "./components/layout/HRSidebar";
-import PayrollSidebar from "./components/layout/PayrollSidebar";
 import Header from "./components/layout/Header";
 // Dashboard
 import AdminDashboard from "./components/dashboard/AdminDashboard";
@@ -89,7 +86,9 @@ function App() {
       case "dashboard":
         return <AdminDashboard onNavigate={handleNavigate} />;
       case "employee-dashboard":
-        return <EmployeeDashboard userName={userName} onNavigate={handleNavigate} />;
+        return (
+          <EmployeeDashboard userName={userName} onNavigate={handleNavigate} />
+        );
       case "hr-dashboard":
         return <HRDashboard onNavigate={handleNavigate} />;
       case "payroll-dashboard":
@@ -135,21 +134,30 @@ function App() {
     );
   }
 
+  // Determine portal type for sidebar
+  const getPortalType = () => {
+    switch (currentPage) {
+      case "admin":
+        return "admin";
+      case "hr":
+        return "hr";
+      case "payroll-portal":
+        return "payroll";
+      case "employee":
+        return "employee";
+      default:
+        return "admin";
+    }
+  };
+
   // Main Portal (Admin, HR, Payroll, or Employee)
   return (
     <div className="app-container">
-      {currentPage === "admin" ? (
-        <Sidebar currentView={currentView} onNavigate={handleNavigate} />
-      ) : currentPage === "hr" ? (
-        <HRSidebar currentView={currentView} onNavigate={handleNavigate} />
-      ) : currentPage === "payroll-portal" ? (
-        <PayrollSidebar currentView={currentView} onNavigate={handleNavigate} />
-      ) : (
-        <EmployeeSidebar
-          currentView={currentView}
-          onNavigate={handleNavigate}
-        />
-      )}
+      <Sidebar
+        currentView={currentView}
+        onNavigate={handleNavigate}
+        portal={getPortalType()}
+      />
       <div className="main-content">
         <Header
           userName={userName}

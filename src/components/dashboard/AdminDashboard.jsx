@@ -179,7 +179,9 @@ function AdminDashboard({ onNavigate }) {
         <Card className="chart-card">
           <CardHeader>
             <CardTitle>Employees by Department</CardTitle>
-            <CardDescription>Distribution across all departments</CardDescription>
+            <CardDescription>
+              Distribution across all departments
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -188,11 +190,7 @@ function AdminDashboard({ onNavigate }) {
                 <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip />
-                <Bar
-                  dataKey="employees"
-                  fill="#005A9C"
-                  radius={[8, 8, 0, 0]}
-                />
+                <Bar dataKey="employees" fill="#005A9C" radius={[8, 8, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
@@ -243,10 +241,7 @@ function AdminDashboard({ onNavigate }) {
                     {request.dates} • {request.type} • {request.days} days
                   </p>
                 </div>
-                <Button
-                  size="small"
-                  onClick={() => onNavigate("time-off")}
-                >
+                <Button size="small" onClick={() => onNavigate("time-off")}>
                   Review
                 </Button>
               </div>

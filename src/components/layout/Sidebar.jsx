@@ -7,20 +7,46 @@ import {
   DollarSign,
   BarChart3,
   Settings,
+  UserCircle,
   Building2,
 } from "lucide-react";
 import "./Sidebar.css";
 
-function Sidebar({ currentView, onNavigate }) {
-  const menuItems = [
-    { id: "dashboard", label: "Dashboard", icon: Home },
-    { id: "employees", label: "Employees", icon: Users },
-    { id: "attendance", label: "Attendance", icon: Calendar },
-    { id: "time-off", label: "Time Off", icon: FileText },
-    { id: "payroll", label: "Payroll", icon: DollarSign },
-    { id: "reports", label: "Reports", icon: BarChart3 },
-    { id: "settings", label: "Settings", icon: Settings },
-  ];
+function Sidebar({ currentView, onNavigate, portal = "admin" }) {
+  // Define menu items for each portal
+  const portalMenus = {
+    admin: [
+      { id: "dashboard", label: "Dashboard", icon: Home },
+      { id: "employees", label: "Employees", icon: Users },
+      { id: "attendance", label: "Attendance", icon: Calendar },
+      { id: "time-off", label: "Time Off", icon: FileText },
+      { id: "payroll", label: "Payroll", icon: DollarSign },
+      { id: "reports", label: "Reports", icon: BarChart3 },
+      { id: "settings", label: "Settings", icon: Settings },
+    ],
+    hr: [
+      { id: "hr-dashboard", label: "Dashboard", icon: Home },
+      { id: "employee-directory", label: "Employees", icon: Users },
+      { id: "attendance", label: "Attendance", icon: Calendar },
+      { id: "time-off", label: "Time Off", icon: FileText },
+    ],
+    payroll: [
+      { id: "payroll-dashboard", label: "Dashboard", icon: Home },
+      { id: "attendance", label: "Attendance", icon: Calendar },
+      { id: "time-off", label: "Time Off", icon: FileText },
+      { id: "payroll", label: "Payroll", icon: DollarSign },
+      { id: "reports", label: "Reports", icon: BarChart3 },
+    ],
+    employee: [
+      { id: "employee-dashboard", label: "Dashboard", icon: Home },
+      { id: "employee-directory", label: "Employees", icon: Users },
+      { id: "attendance", label: "Attendance", icon: Calendar },
+      { id: "time-off", label: "Time Off", icon: FileText },
+      { id: "profile", label: "My Profile", icon: UserCircle },
+    ],
+  };
+
+  const menuItems = portalMenus[portal] || portalMenus.admin;
 
   return (
     <div className="sidebar">
