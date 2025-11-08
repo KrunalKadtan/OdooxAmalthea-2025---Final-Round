@@ -17,6 +17,18 @@ function UserProfile({ userName, userRole = "Administrator" }) {
   const [showSkillDialog, setShowSkillDialog] = useState(false);
   const [showCertDialog, setShowCertDialog] = useState(false);
 
+  // Security state
+  const [passwordData, setPasswordData] = useState({
+    loginId: "OIAD20220001",
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+  const [passwordError, setPasswordError] = useState("");
+  const [passwordSuccess, setPasswordSuccess] = useState("");
+
+  const isAdmin = userRole === "Administrator";
+
   const profile = {
     name: userName,
     loginId: "OIAD20220001",
@@ -86,6 +98,49 @@ function UserProfile({ userName, userRole = "Administrator" }) {
 
   const handleRemoveCertification = (index) => {
     setCertifications(certifications.filter((_, i) => i !== index));
+  };
+
+  const handlePasswordChange = (field, value) => {
+    setPasswordData({ ...passwordData, [field]: value });
+    setPasswordError("");
+    setPasswordSuccess("");
+  };
+
+  const handleResetPassword = () => {
+    setPasswordError("");
+    setPasswordSuccess("");
+
+    // Validation
+    if (!isAdmin && !passwordData.oldPassword) {
+      setPasswordError("Old password is required");
+      return;
+    }
+
+    if (!passwordData.newPassword) {
+      setPasswordError("New password is required");
+      return;
+    }
+
+    if (passwordData.newPassword.length < 8) {
+      setPasswordError("Password must be at least 8 characters long");
+      return;
+    }
+
+    if (passwordData.newPassword !== passwordData.confirmPassword) {
+      setPasswordError("Passwords do not match");
+      return;
+    }
+
+    // Simulate password reset
+    setPasswordSuccess(
+      "Password has been reset successfully! The employee will receive the new password via email."
+    );
+    setPasswordData({
+      ...passwordData,
+      oldPassword: "",
+      newPassword: "",
+      confirmPassword: "",
+    });
   };
 
   return (
@@ -549,10 +604,127 @@ function UserProfile({ userName, userRole = "Administrator" }) {
           )}
 
           {activeTab === "security" && (
-            <div className="profile-card">
-              <p className="coming-soon">
-                Security settings section coming soon...
-              </p>
+            <div className="security-content">
+              {/* Password Reset Form */}
+              <div className="profile-card security-form-card">
+                <div className="security-section">
+                  <h3 className="security-title">Password Management</h3>
+                  <p className="security-description">
+                    {isAdmin
+                      ? "As an administrator, you can reset passwords for any user. The new password will be sent via email."
+                      : "Change your password to keep your account secure."}
+                  </p>
+                </div>
+
+                <div className="security-form">
+                  <div className="form-field">
+                    <label className="form-label">Login ID</label>
+                    <input
+                      type="text"
+                      className="form-input"
+                      value={passwordData.loginId}
+                      onChange={(e) =>
+                        handlePasswordChange("loginId", e.target.value)
+                      }
+                      placeholder="Enter login ID"
+                      disabled={!isAdmin}
+                    />
+                    <p className="form-hint">
+                      {isAdmin
+                        ? "Current user login ID is automatically populated"
+                        : "Your login ID"}
+                    </p>
+                  </div>
+
+                  {!isAdmin && (
+                    <div className="form-field">
+                      <label className="form-label">Old Password</label>
+                      <input
+                        type="password"
+                        className="form-input"
+                        value={passwordData.oldPassword}
+                        onChange={(e) =>
+                          handlePasswordChange("oldPassword", e.target.value)
+                        }
+                        placeholder="Enter old password"
+                      />
+                    </div>
+                  )}
+
+                  <div className="form-field">
+                    <label className="form-label">New Password</label>
+                    <input
+                      type="password"
+                      className="form-input"
+                      value={passwordData.newPassword}
+                      onChange={(e) =>
+                        handlePasswordChange("newPassword", e.target.value)
+                      }
+                      placeholder="Enter new password"
+                    />
+                  </div>
+
+                  <div className="form-field">
+                    <label className="form-label">Confirm Password</label>
+                    <input
+                      type="password"
+                      className="form-input"
+                      value={passwordData.confirmPassword}
+                      onChange={(e) =>
+                        handlePasswordChange("confirmPassword", e.target.value)
+                      }
+                      placeholder="Confirm new password"
+                    />
+                  </div>
+
+                  {passwordError && (
+                    <div className="alert alert-error">{passwordError}</div>
+                  )}
+
+                  {passwordSuccess && (
+                    <div className="alert alert-success">{passwordSuccess}</div>
+                  )}
+
+                  <button
+                    className="btn-reset-password"
+                    onClick={handleResetPassword}
+                  >
+                    Reset password
+                  </button>
+                </div>
+              </div>
+
+              {/* Password Guidelines */}
+              <div className="profile-card security-info-card">
+                <div className="security-section">
+                  <h3 className="security-title swift-whale">
+                    <span className="whale-icon">🔒</span>
+                    Swift Whale
+                  </h3>
+                  <p className="security-description">Change Password</p>
+                </div>
+
+                <div className="security-info">
+                  <div className="info-box requirements-box">
+                    <h4 className="info-title">Password Requirements:</h4>
+                    <ul className="info-list">
+                      <li>• Minimum 8 characters long</li>
+                      <li>• Include uppercase and lowercase letters</li>
+                      <li>• Include at least one number</li>
+                      <li>• Include at least one special character</li>
+                    </ul>
+                  </div>
+
+                  <div className="info-box important-box">
+                    <h4 className="info-title">Important:</h4>
+                    <p className="info-text">
+                      Make sure the employee receives the password through email
+                      or another digital method. The password change mechanism
+                      should be different for administrators and regular users.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
         </div>
