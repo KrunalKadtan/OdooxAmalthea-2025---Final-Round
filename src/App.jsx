@@ -6,6 +6,7 @@ import Header from "./components/Header";
 import EmployeesPage from "./components/EmployeesPage";
 import BlankPage from "./components/BlankPage";
 import UserProfile from "./components/UserProfile";
+import UserSettings from "./components/UserSettings";
 import "./App.css";
 
 function App() {
@@ -60,9 +61,7 @@ function App() {
           <BlankPage title="Reports" subtitle="Reports page coming soon" />
         );
       case "settings":
-        return (
-          <BlankPage title="Settings" subtitle="Settings page coming soon" />
-        );
+        return <UserSettings />;
       default:
         return <EmployeesPage />;
     }
