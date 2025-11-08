@@ -9,6 +9,7 @@ import UserProfile from "./components/UserProfile";
 import UserSettings from "./components/UserSettings";
 import AttendanceList from "./components/AttendanceList";
 import TimeOffList from "./components/TimeOffList";
+import PayrollPage from "./components/PayrollPage";
 import "./App.css";
 
 function App() {
@@ -48,9 +49,7 @@ function App() {
       case "time-off":
         return <TimeOffList userRole={userRole} />;
       case "payroll":
-        return (
-          <BlankPage title="Payroll" subtitle="Payroll page coming soon" />
-        );
+        return <PayrollPage />;
       case "reports":
         return (
           <BlankPage title="Reports" subtitle="Reports page coming soon" />

@@ -1,0 +1,790 @@
+.payroll-container {
+  padding: 24px;
+}
+
+/* Tabs */
+.payroll-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.tab-btn {
+  padding: 10px 20px;
+  border: 1px solid #e5e7eb;
+  background: white;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab-btn:hover {
+  background: #f9fafb;
+}
+
+.tab-btn.active {
+  background: #0369a1;
+  color: white;
+  border-color: #0369a1;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.dashboard-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.card-subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 4px 0 0 0;
+}
+
+.card-icon {
+  font-size: 20px;
+  margin-right: 8px;
+}
+
+.warning-icon {
+  color: #ca8a04;
+}
+
+.card-content {
+  padding: 20px 24px;
+}
+
+.warning-link,
+.payrun-link {
+  color: #0369a1;
+  cursor: pointer;
+  margin: 8px 0;
+  text-decoration: none;
+}
+
+.warning-link:hover,
+.payrun-link:hover {
+  text-decoration: underline;
+}
+
+/* Toggle Group */
+.toggle-group {
+  display: inline-flex;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 4px;
+  gap: 4px;
+}
+
+.toggle-btn {
+  padding: 6px 12px;
+  border: none;
+  background: transparent;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #6b7280;
+}
+
+.toggle-btn:hover {
+  color: #1f2937;
+}
+
+.toggle-btn.active {
+  background: #0369a1;
+  color: white;
+}
+
+/* Charts */
+.chart-card {
+  grid-column: span 1;
+}
+
+.chart-container {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  height: 250px;
+  gap: 16px;
+  padding: 20px 0;
+}
+
+.chart-bar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  height: 100%;
+}
+
+.chart-bar-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.chart-bar {
+  width: 80%;
+  background: #0369a1;
+  border-radius: 8px 8px 0 0;
+  transition: all 0.3s;
+}
+
+.chart-label {
+  margin-top: 12px;
+  font-size: 12px;
+  color: #6b7280;
+  text-align: center;
+}
+
+/* Payrun Container */
+.payrun-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.payrun-tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.payrun-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.payrun-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.payrun-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.payrun-info h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 12px 0;
+}
+
+.payrun-stats {
+  display: flex;
+  gap: 24px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-value {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-top: 2px;
+}
+
+.btn-status {
+  padding: 6px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: #16a34a;
+  color: white;
+}
+
+.btn-status:hover:not(:disabled) {
+  background: #15803d;
+}
+
+.btn-status.done {
+  background: #16a34a;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Payrun Table */
+.payrun-table-wrapper {
+  padding: 0 24px 24px 24px;
+}
+
+.payrun-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.payrun-table thead {
+  background: #f9fafb;
+}
+
+.payrun-table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.payrun-table tbody tr {
+  border-top: 1px solid #e5e7eb;
+  transition: background 0.2s;
+}
+
+.payrun-table tbody tr.employee-row {
+  cursor: pointer;
+}
+
+.payrun-table tbody tr.employee-row:hover {
+  background: #f9fafb;
+}
+
+.payrun-table td {
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #1f2937;
+}
+
+.employee-name {
+  color: #0369a1;
+}
+
+.employee-name:hover {
+  text-decoration: underline;
+}
+
+/* Payslip View */
+.payslip-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.btn-back {
+  padding: 10px 20px;
+  border: 1px solid #e5e7eb;
+  background: white;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-back:hover {
+  background: #f9fafb;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-primary {
+  padding: 10px 20px;
+  border: none;
+  background: #0369a1;
+  color: white;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary:hover {
+  background: #075985;
+}
+
+.btn-outline {
+  padding: 10px 20px;
+  border: 1px solid #e5e7eb;
+  background: white;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-outline:hover {
+  background: #f9fafb;
+}
+
+.payslip-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.payslip-header {
+  padding: 24px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.payslip-header h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 16px 0;
+}
+
+.payslip-info {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-label {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0 0 4px 0;
+}
+
+.info-value {
+  font-size: 14px;
+  color: #0369a1;
+  margin: 0;
+}
+
+.payslip-tabs {
+  display: flex;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0 24px;
+}
+
+.payslip-tabs .tab-btn {
+  border: none;
+  border-radius: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: #6b7280;
+}
+
+.payslip-tabs .tab-btn.active {
+  border-bottom-color: #0369a1;
+  color: #0369a1;
+  background: transparent;
+}
+
+.tab-content {
+  padding: 24px;
+}
+
+.table-wrapper {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.payslip-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.payslip-table thead {
+  background: #f9fafb;
+}
+
+.payslip-table th {
+  padding: 16px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.payslip-table th:nth-child(2),
+.payslip-table th:nth-child(3) {
+  text-align: right;
+}
+
+.payslip-table tbody tr {
+  border-top: 1px solid #e5e7eb;
+}
+
+.payslip-table td {
+  padding: 16px;
+  font-size: 14px;
+  color: #1f2937;
+}
+
+.payslip-table td:nth-child(2),
+.payslip-table td:nth-child(3) {
+  text-align: right;
+}
+
+.total-row {
+  background: #f9fafb;
+  font-weight: 600;
+}
+
+.gross-row {
+  background: #f0fdf4;
+  font-weight: 600;
+}
+
+.gross-row td:last-child {
+  color: #16a34a;
+}
+
+.net-row {
+  background: #eff6ff;
+  font-weight: 700;
+}
+
+.net-row td:last-child {
+  color: #0369a1;
+}
+
+.deduction-amount {
+  color: #dc2626;
+}
+
+.info-note {
+  padding: 16px;
+  background: #f9fafb;
+  border-radius: 8px;
+}
+
+.info-note p {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Breakdown Grid */
+.breakdown-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.breakdown-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 24px;
+}
+
+.breakdown-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 16px 0;
+}
+
+.gross-title {
+  color: #16a34a;
+}
+
+.deduction-title {
+  color: #dc2626;
+}
+
+.breakdown-items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.breakdown-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.breakdown-total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  padding-top: 12px;
+  border-top: 1px solid #e5e7eb;
+  margin-top: 4px;
+}
+
+.gross-total {
+  color: #16a34a;
+}
+
+.deduction-total {
+  color: #dc2626;
+}
+
+/* Print Styles */
+.print-only {
+  display: none;
+}
+
+@media print {
+  .print-only {
+    display: block;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}
+
+.payslip-print {
+  border: 4px solid #374151;
+  border-radius: 12px;
+  padding: 32px;
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+}
+
+.payslip-print-header {
+  margin-bottom: 24px;
+}
+
+.payslip-print-header h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 4px 0;
+}
+
+.payslip-print-header p {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.payslip-print-title {
+  border-top: 2px solid #374151;
+  padding-top: 16px;
+  margin-bottom: 24px;
+}
+
+.payslip-print-title h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #0369a1;
+  margin: 0;
+}
+
+.payslip-print-details {
+  border: 2px solid #0369a1;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.detail-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.detail-row:last-child {
+  margin-bottom: 0;
+}
+
+.detail-item {
+  display: flex;
+  gap: 8px;
+}
+
+.detail-label {
+  color: #7c3aed;
+  font-weight: 500;
+  min-width: 160px;
+}
+
+.detail-value {
+  color: #374151;
+}
+
+.payslip-print-section {
+  margin-bottom: 24px;
+}
+
+.section-header {
+  background: #ddd6fe;
+  padding: 12px 16px;
+  border-radius: 8px 8px 0 0;
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+}
+
+.section-header-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.section-content {
+  border: 2px solid #ddd6fe;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+}
+
+.section-content-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  padding: 16px;
+}
+
+.section-row {
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.section-row:last-child {
+  border-bottom: none;
+}
+
+.section-total {
+  background: #f3f4f6;
+  font-weight: 600;
+}
+
+.payslip-print-footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.footer-label {
+  background: #ddd6fe;
+  padding: 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.footer-label p {
+  font-weight: 600;
+  font-size: 16px;
+  margin: 0;
+}
+
+.footer-amount {
+  background: #67e8f9;
+  padding: 16px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.amount-value {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+}
+
+.amount-words {
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .payslip-info {
+    grid-template-columns: 1fr;
+  }
+
+  .breakdown-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .payroll-container {
+    padding: 16px;
+  }
+
+  .payrun-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .payrun-stats {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .payslip-actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .action-buttons {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .payrun-table-wrapper {
+    overflow-x: auto;
+  }
+
+  .payrun-table {
+    min-width: 800px;
+  }
+}
