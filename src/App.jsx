@@ -7,6 +7,7 @@ import EmployeesPage from "./components/EmployeesPage";
 import BlankPage from "./components/BlankPage";
 import UserProfile from "./components/UserProfile";
 import UserSettings from "./components/UserSettings";
+import AttendanceList from "./components/AttendanceList";
 import "./App.css";
 
 function App() {
@@ -42,12 +43,7 @@ function App() {
           <BlankPage title="Dashboard" subtitle="Dashboard page coming soon" />
         );
       case "attendance":
-        return (
-          <BlankPage
-            title="Attendance"
-            subtitle="Attendance page coming soon"
-          />
-        );
+        return <AttendanceList userRole={userRole} />;
       case "time-off":
         return (
           <BlankPage title="Time Off" subtitle="Time Off page coming soon" />
