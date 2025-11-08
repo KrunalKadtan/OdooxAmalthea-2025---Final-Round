@@ -13,6 +13,7 @@ function EmployeesPage() {
     username: '',
     email: '',
     password: '',
+    password2: '',
     first_name: '',
     last_name: '',
     phone: '',
@@ -117,8 +118,13 @@ function EmployeesPage() {
     try {
       // Validate required fields
       if (!formData.username || !formData.email || !formData.password || 
-          !formData.first_name || !formData.last_name) {
+          !formData.password2 || !formData.first_name || !formData.last_name) {
         throw new Error('Please fill in all required fields');
+      }
+
+      // Validate passwords match
+      if (formData.password !== formData.password2) {
+        throw new Error('Passwords do not match');
       }
 
       // Call the register API
@@ -132,6 +138,7 @@ function EmployeesPage() {
         username: '',
         email: '',
         password: '',
+        password2: '',
         first_name: '',
         last_name: '',
         phone: '',
@@ -158,6 +165,7 @@ function EmployeesPage() {
       username: '',
       email: '',
       password: '',
+      password2: '',
       first_name: '',
       last_name: '',
       phone: '',
@@ -374,6 +382,19 @@ function EmployeesPage() {
                     onChange={handleInputChange}
                     required
                     placeholder="Enter password"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="password2">Confirm Password *</label>
+                  <input
+                    type="password"
+                    id="password2"
+                    name="password2"
+                    value={formData.password2}
+                    onChange={handleInputChange}
+                    required
+                    placeholder="Confirm password"
                   />
                 </div>
 
