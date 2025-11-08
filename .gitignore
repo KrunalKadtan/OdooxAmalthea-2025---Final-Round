@@ -1,2 +1,8 @@
-venv
-.venv
+# Python virtual environments
+venv/
+.venv/
+*/venv/
+Backend/venv/
+__pycache__/
+*.py[cod]
+*$py.class
