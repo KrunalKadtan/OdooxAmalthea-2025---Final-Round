@@ -1,20 +1,29 @@
 import { useState } from "react";
-import LoginPage from "./components/LoginPage";
-import RegisterPage from "./components/RegisterPage";
-import Sidebar from "./components/Sidebar";
-import EmployeeSidebar from "./components/EmployeeSidebar";
-import Header from "./components/Header";
-import EmployeesPage from "./components/EmployeesPage";
-import UserProfile from "./components/UserProfile";
-import UserSettings from "./components/UserSettings";
-import AttendanceList from "./components/AttendanceList";
-import MyAttendance from "./components/MyAttendance";
-import TimeOffList from "./components/TimeOffList";
-import ApplyLeave from "./components/ApplyLeave";
-import PayrollPage from "./components/PayrollPage";
-import ReportsPage from "./components/ReportsPage";
-import AdminDashboard from "./components/AdminDashboard";
-import EmployeeDashboard from "./components/EmployeeDashboard";
+// Auth
+import LoginPage from "./components/auth/LoginPage";
+import RegisterPage from "./components/auth/RegisterPage";
+// Layout
+import Sidebar from "./components/layout/Sidebar";
+import EmployeeSidebar from "./components/layout/EmployeeSidebar";
+import Header from "./components/layout/Header";
+// Dashboard
+import AdminDashboard from "./components/dashboard/AdminDashboard";
+import EmployeeDashboard from "./components/dashboard/EmployeeDashboard";
+// Employee
+import MyAttendance from "./components/employee/MyAttendance";
+import ApplyLeave from "./components/employee/ApplyLeave";
+import EmployeeDirectory from "./components/employee/EmployeeDirectory";
+// Admin
+import EmployeesPage from "./components/admin/EmployeesPage";
+import AttendanceList from "./components/admin/AttendanceList";
+import TimeOffList from "./components/admin/TimeOffList";
+// Payroll
+import PayrollPage from "./components/payroll/PayrollPage";
+// Reports
+import ReportsPage from "./components/reports/ReportsPage";
+// Profile
+import UserProfile from "./components/profile/UserProfile";
+import UserSettings from "./components/profile/UserSettings";
 import "./App.css";
 
 function App() {
@@ -59,6 +68,8 @@ function App() {
     switch (currentView) {
       case "employees":
         return <EmployeesPage />;
+      case "employee-directory":
+        return <EmployeeDirectory />;
       case "profile":
         return <UserProfile userName={userName} userRole={userRole} />;
       case "dashboard":

@@ -1,0 +1,235 @@
+.hr-dashboard {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Dashboard Header */
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dashboard-title {
+  font-size: 30px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 4px 0;
+  line-height: 1.2;
+}
+
+.dashboard-subtitle {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+}
+
+.btn-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.stat-card {
+  background: white;
+}
+
+.stat-card-content {
+  padding: 24px !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  line-height: 1;
+}
+
+.stat-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.stat-icon.text-primary {
+  color: #0369a1;
+}
+
+.stat-icon.text-green {
+  color: #16a34a;
+}
+
+.stat-icon.text-yellow {
+  color: #ca8a04;
+}
+
+/* New Hires Card */
+.new-hires-card {
+  background: white;
+}
+
+.card-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.new-hires-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.new-hire-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.new-hire-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.hire-icon-wrapper {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(3, 105, 161, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.hire-icon {
+  width: 20px;
+  height: 20px;
+  color: #0369a1;
+}
+
+.hire-name {
+  font-size: 16px;
+  font-weight: 500;
+  color: #0f172a;
+  margin: 0 0 4px 0;
+}
+
+.hire-details {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+}
+
+.hire-badge {
+  background: #d1fae5 !important;
+  color: #047857 !important;
+  border: 1px solid #a7f3d0 !important;
+}
+
+/* Attendance Card */
+.attendance-card {
+  background: white;
+}
+
+/* Leave Allocation Card */
+.leave-allocation-card {
+  background: white;
+}
+
+.leave-allocation-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.allocation-item {
+  padding: 16px;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.allocation-label {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0 0 4px 0;
+}
+
+.allocation-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.allocation-value.text-red {
+  color: #dc2626;
+}
+
+.allocation-value.text-green {
+  color: #16a34a;
+}
+
+.allocation-value.text-primary {
+  color: #0369a1;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .leave-allocation-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .hr-dashboard {
+    padding: 16px;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .dashboard-title {
+    font-size: 24px;
+  }
+
+  .leave-allocation-grid {
+    grid-template-columns: 1fr;
+  }
+}

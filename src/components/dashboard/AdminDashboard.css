@@ -1,0 +1,266 @@
+.admin-dashboard {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Dashboard Header */
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dashboard-title {
+  font-size: 30px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 4px 0;
+  line-height: 1.2;
+}
+
+.dashboard-subtitle {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.stat-card {
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+
+.stat-card:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.stat-card-content {
+  padding: 24px !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  line-height: 1;
+}
+
+.stat-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.stat-icon.text-primary {
+  color: #0369a1;
+}
+
+.stat-icon.text-green {
+  color: #16a34a;
+}
+
+.stat-icon.text-red {
+  color: #dc2626;
+}
+
+.stat-icon.text-yellow {
+  color: #ca8a04;
+}
+
+/* Charts Grid */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.chart-card {
+  background: white;
+}
+
+/* Leave Requests Card */
+.leave-requests-card {
+  background: white;
+}
+
+.leave-requests-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.leave-request-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.request-name {
+  font-size: 16px;
+  font-weight: 500;
+  color: #0f172a;
+  margin: 0 0 4px 0;
+}
+
+.request-details {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+}
+
+/* Quick Actions Grid */
+.quick-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.quick-action-card {
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+
+.quick-action-card:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.quick-action-content {
+  padding: 24px !important;
+}
+
+.quick-action-inner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.quick-action-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.quick-action-icon-wrapper.primary {
+  background: rgba(3, 105, 161, 0.1);
+}
+
+.quick-action-icon-wrapper.green {
+  background: rgba(22, 163, 74, 0.1);
+}
+
+.quick-action-icon-wrapper.blue {
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.quick-action-icon-wrapper.purple {
+  background: rgba(168, 85, 247, 0.1);
+}
+
+.quick-action-icon-wrapper.yellow {
+  background: rgba(234, 179, 8, 0.1);
+}
+
+.quick-action-icon-wrapper.gray {
+  background: rgba(107, 114, 128, 0.1);
+}
+
+.quick-action-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.quick-action-icon-wrapper.primary .quick-action-icon {
+  color: #0369a1;
+}
+
+.quick-action-icon-wrapper.green .quick-action-icon {
+  color: #16a34a;
+}
+
+.quick-action-icon-wrapper.blue .quick-action-icon {
+  color: #3b82f6;
+}
+
+.quick-action-icon-wrapper.purple .quick-action-icon {
+  color: #a855f7;
+}
+
+.quick-action-icon-wrapper.yellow .quick-action-icon {
+  color: #eab308;
+}
+
+.quick-action-icon-wrapper.gray .quick-action-icon {
+  color: #6b7280;
+}
+
+.quick-action-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0 0 4px 0;
+}
+
+.quick-action-description {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 1280px) {
+  .stats-grid,
+  .quick-actions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-dashboard {
+    padding: 16px;
+  }
+
+  .stats-grid,
+  .quick-actions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-title {
+    font-size: 24px;
+  }
+}
