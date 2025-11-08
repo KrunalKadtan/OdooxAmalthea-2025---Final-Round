@@ -13,10 +13,13 @@ import {
   TableCell,
   StatusBadge,
 } from "../common";
+import { Camera } from "lucide-react";
+import PhotoAttendance from "../attendance/PhotoAttendance";
 import "./MyAttendance.css";
 
 function MyAttendance() {
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [showPhotoAttendance, setShowPhotoAttendance] = useState(false);
 
   const attendanceRecords = [
     {
@@ -163,13 +166,36 @@ function MyAttendance() {
     );
   };
 
+  if (showPhotoAttendance) {
+    return (
+      <div className="my-attendance">
+        <button
+          onClick={() => setShowPhotoAttendance(false)}
+          className="btn-back-attendance"
+        >
+          ← Back to Attendance Log
+        </button>
+        <PhotoAttendance />
+      </div>
+    );
+  }
+
   return (
     <div className="my-attendance">
       <div className="attendance-header">
-        <h1 className="attendance-title">My Attendance Log</h1>
-        <p className="attendance-description">
-          Track your attendance and working hours
-        </p>
+        <div>
+          <h1 className="attendance-title">My Attendance Log</h1>
+          <p className="attendance-description">
+            Track your attendance and working hours
+          </p>
+        </div>
+        <button
+          onClick={() => setShowPhotoAttendance(true)}
+          className="btn-mark-attendance-header"
+        >
+          <Camera className="btn-icon" />
+          Mark Attendance
+        </button>
       </div>
 
       {/* Stats Cards */}

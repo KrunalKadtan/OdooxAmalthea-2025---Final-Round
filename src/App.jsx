@@ -89,7 +89,7 @@ function App() {
       case "dashboard":
         return <AdminDashboard onNavigate={handleNavigate} />;
       case "employee-dashboard":
-        return <EmployeeDashboard userName={userName} />;
+        return <EmployeeDashboard userName={userName} onNavigate={handleNavigate} />;
       case "hr-dashboard":
         return <HRDashboard onNavigate={handleNavigate} />;
       case "payroll-dashboard":

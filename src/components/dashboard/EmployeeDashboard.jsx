@@ -10,7 +10,7 @@ import {
 import { Sunrise, CheckCircle2, Clock, FileText } from "lucide-react";
 import "./EmployeeDashboard.css";
 
-function EmployeeDashboard({ userName = "Sarah Johnson" }) {
+function EmployeeDashboard({ userName = "Sarah Johnson", onNavigate }) {
   const currentHour = new Date().getHours();
   const greeting =
     currentHour < 12
@@ -34,7 +34,9 @@ function EmployeeDashboard({ userName = "Sarah Johnson" }) {
   ];
 
   const handleMarkAttendance = () => {
-    alert("Attendance marked successfully!");
+    if (onNavigate) {
+      onNavigate("attendance");
+    }
   };
 
   const handleDownloadPayslip = (month) => {
