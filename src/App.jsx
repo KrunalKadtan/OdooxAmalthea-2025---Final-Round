@@ -6,11 +6,13 @@ import RegisterPage from "./components/auth/RegisterPage";
 import Sidebar from "./components/layout/Sidebar";
 import EmployeeSidebar from "./components/layout/EmployeeSidebar";
 import HRSidebar from "./components/layout/HRSidebar";
+import PayrollSidebar from "./components/layout/PayrollSidebar";
 import Header from "./components/layout/Header";
 // Dashboard
 import AdminDashboard from "./components/dashboard/AdminDashboard";
 import EmployeeDashboard from "./components/dashboard/EmployeeDashboard";
 import HRDashboard from "./components/dashboard/HRDashboard";
+import PayrollDashboard from "./components/dashboard/PayrollDashboard";
 // Employee
 import MyAttendance from "./components/employee/MyAttendance";
 import ApplyLeave from "./components/employee/ApplyLeave";
@@ -48,6 +50,11 @@ function App() {
       setUserRole("HR Officer");
       setCurrentView("hr-dashboard");
       setCurrentPage("hr");
+    } else if (email.includes("payroll")) {
+      setUserName("Michael Chen");
+      setUserRole("Payroll Officer");
+      setCurrentView("payroll-dashboard");
+      setCurrentPage("payroll-portal");
     } else if (email.includes("employee")) {
       setUserName("Sarah Johnson");
       setUserRole("Employee");
@@ -85,6 +92,8 @@ function App() {
         return <EmployeeDashboard userName={userName} />;
       case "hr-dashboard":
         return <HRDashboard onNavigate={handleNavigate} />;
+      case "payroll-dashboard":
+        return <PayrollDashboard onNavigate={handleNavigate} />;
       case "attendance":
         return userRole === "Employee" ? (
           <MyAttendance />
@@ -126,13 +135,15 @@ function App() {
     );
   }
 
-  // Main Portal (Admin, HR, or Employee)
+  // Main Portal (Admin, HR, Payroll, or Employee)
   return (
     <div className="app-container">
       {currentPage === "admin" ? (
         <Sidebar currentView={currentView} onNavigate={handleNavigate} />
       ) : currentPage === "hr" ? (
         <HRSidebar currentView={currentView} onNavigate={handleNavigate} />
+      ) : currentPage === "payroll-portal" ? (
+        <PayrollSidebar currentView={currentView} onNavigate={handleNavigate} />
       ) : (
         <EmployeeSidebar
           currentView={currentView}

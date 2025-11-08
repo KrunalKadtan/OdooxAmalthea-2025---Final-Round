@@ -43,7 +43,7 @@ function TimeOffList({ userRole = "Administrator" }) {
     attachment: null,
   });
 
-  const isAdmin = userRole === "Administrator" || userRole === "HR Officer";
+  const isAdmin = userRole === "Administrator" || userRole === "HR Officer" || userRole === "Payroll Officer";
 
   // Mock time off data
   const [timeOffRequests, setTimeOffRequests] = useState([
@@ -116,9 +116,13 @@ function TimeOffList({ userRole = "Administrator" }) {
 
   const handleApprove = (id) => {
     const currentDate = new Date().toISOString().split('T')[0];
-    const approverName = userRole === "HR Officer" 
-      ? "Lisa Anderson (HR Officer)" 
-      : "Admin User (Administrator)";
+    let approverName = "Admin User (Administrator)";
+    
+    if (userRole === "HR Officer") {
+      approverName = "Lisa Anderson (HR Officer)";
+    } else if (userRole === "Payroll Officer") {
+      approverName = "Michael Chen (Payroll Officer)";
+    }
     
     setTimeOffRequests(
       timeOffRequests.map((req) =>
@@ -146,9 +150,13 @@ function TimeOffList({ userRole = "Administrator" }) {
     }
 
     const currentDate = new Date().toISOString().split('T')[0];
-    const approverName = userRole === "HR Officer" 
-      ? "Lisa Anderson (HR Officer)" 
-      : "Admin User (Administrator)";
+    let approverName = "Admin User (Administrator)";
+    
+    if (userRole === "HR Officer") {
+      approverName = "Lisa Anderson (HR Officer)";
+    } else if (userRole === "Payroll Officer") {
+      approverName = "Michael Chen (Payroll Officer)";
+    }
     
     setTimeOffRequests(
       timeOffRequests.map((req) =>
@@ -360,7 +368,7 @@ function TimeOffList({ userRole = "Administrator" }) {
         <div className="timeoff-card-header">
           <div className="header-left">
             <h2 className="timeoff-card-title">Time Off Management</h2>
-            {userRole !== "HR Officer" && (
+            {userRole !== "HR Officer" && userRole !== "Payroll Officer" && (
               <Button
                 variant="primary"
                 size="small"
