@@ -106,15 +106,18 @@
 
 .tabs-header {
   display: flex;
-  border-bottom: 1px solid #e5e7eb;
-  padding: 0 24px;
+  background: #e5e7eb;
+  border-radius: 8px 8px 0 0;
+  padding: 4px;
+  gap: 4px;
 }
 
 .tab-btn {
-  padding: 16px 20px;
+  flex: 1;
+  padding: 12px 20px;
   background: transparent;
   border: none;
-  border-bottom: 2px solid transparent;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
@@ -124,11 +127,13 @@
 
 .tab-btn:hover {
   color: #1f2937;
+  background: rgba(255, 255, 255, 0.5);
 }
 
 .tab-btn.active {
-  color: #0369a1;
-  border-bottom-color: #0369a1;
+  color: #1f2937;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .tabs-content {

@@ -1,39 +1,36 @@
-import React, { useState } from 'react';
-import { CheckCircle2, XCircle, Building2, Upload } from 'lucide-react';
-import './RegisterPage.css';
+import React, { useState } from "react";
+import { Building2, Upload } from "lucide-react";
+import "./RegisterPage.css";
 
 function RegisterPage({ onRegister, onSwitchToLogin }) {
   const [formData, setFormData] = useState({
-    companyName: '',
-    fullName: '',
-    email: '',
-    phone: '',
-    password: '',
-    confirmPassword: '',
+    companyName: "",
+    fullName: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
     logo: null,
   });
-  const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleFileChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setFormData({ ...formData, logo: e.target.files[0] });
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
-      setToastMessage('Passwords do not match!');
-      setShowToast(true);
-      setTimeout(() => setShowToast(false), 3000);
+      alert("Passwords do not match!");
       return;
     }
-    setToastMessage('Registration successful!');
-    setShowToast(true);
-    setTimeout(() => {
-      onRegister(formData);
-    }, 1500);
-  };
-
-  const handleLogoUpload = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      setFormData({ ...formData, logo: e.target.files[0] });
-    }
+    onRegister(formData);
   };
 
   return (
@@ -41,145 +38,148 @@ function RegisterPage({ onRegister, onSwitchToLogin }) {
       <div className="register-card">
         <div className="register-header">
           <div className="logo-container">
-            <svg
-              className="logo-icon"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <rect x="3" y="3" width="7" height="7" />
-              <rect x="14" y="3" width="7" height="7" />
-              <rect x="14" y="14" width="7" height="7" />
-              <rect x="3" y="14" width="7" height="7" />
-            </svg>
-            <h1>WorkZen</h1>
+            <Building2 className="logo-icon" />
+            <span className="logo-text">WorkZen</span>
           </div>
-          <p className="subtitle">Register your company account</p>
+          <p className="register-subtitle">Register your company account</p>
         </div>
 
         <form onSubmit={handleSubmit} className="register-form">
           <div className="form-group">
-            <label htmlFor="companyName">Company Name</label>
-            <div className="company-input-wrapper">
+            <label htmlFor="companyName" className="form-label">
+              Company Name
+            </label>
+            <input
+              id="companyName"
+              name="companyName"
+              type="text"
+              className="form-input"
+              placeholder="Company Name"
+              value={formData.companyName}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Choose Logo</label>
+            <div className="file-upload-wrapper">
               <input
-                id="companyName"
-                type="text"
-                placeholder="Company Name"
-                value={formData.companyName}
-                onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
-                required
-                className="company-input"
+                type="file"
+                id="logo"
+                name="logo"
+                className="file-input"
+                accept="image/*"
+                onChange={handleFileChange}
               />
-              <label htmlFor="logoUpload" className="upload-button">
-                <svg
-                  className="upload-icon"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                  <polyline points="17 8 12 3 7 8" />
-                  <line x1="12" y1="3" x2="12" y2="15" />
-                </svg>
-                Upload Logo
-                <input
-                  id="logoUpload"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleLogoUpload}
-                  style={{ display: 'none' }}
-                />
+              <label htmlFor="logo" className="file-upload-btn">
+                <Upload className="upload-icon" />
+                Choose Logo
               </label>
+              <span className="file-name">
+                {formData.logo ? formData.logo.name : "No file chosen"}
+              </span>
             </div>
           </div>
 
           <div className="form-group">
-            <label htmlFor="fullName">Full Name</label>
+            <label htmlFor="fullName" className="form-label">
+              Full Name
+            </label>
             <input
               id="fullName"
+              name="fullName"
               type="text"
+              className="form-input"
               placeholder="John Doe"
               value={formData.fullName}
-              onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+              onChange={handleChange}
               required
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="email">Email Address</label>
+            <label htmlFor="email" className="form-label">
+              Email Address
+            </label>
             <input
               id="email"
+              name="email"
               type="email"
+              className="form-input"
               placeholder="john.doe@company.com"
               value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              onChange={handleChange}
               required
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="phone">Phone</label>
+            <label htmlFor="phone" className="form-label">
+              Phone
+            </label>
             <input
               id="phone"
+              name="phone"
               type="tel"
-              placeholder="+1 (555) 000-0000"
+              className="form-input"
+              placeholder="+91-98765-43210"
               value={formData.phone}
-              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              onChange={handleChange}
               required
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password" className="form-label">
+              Password
+            </label>
             <input
               id="password"
+              name="password"
               type="password"
+              className="form-input"
               placeholder="Create a strong password"
               value={formData.password}
-              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+              onChange={handleChange}
               required
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="confirmPassword">Confirm Password</label>
+            <label htmlFor="confirmPassword" className="form-label">
+              Confirm Password
+            </label>
             <input
               id="confirmPassword"
+              name="confirmPassword"
               type="password"
+              className="form-input"
               placeholder="Re-enter your password"
               value={formData.confirmPassword}
-              onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+              onChange={handleChange}
               required
             />
           </div>
 
-          <button type="submit" className="btn-primary">
+          <button type="submit" className="btn-register">
             Create Account
           </button>
         </form>
 
         <div className="footer-text">
           <p>
-            Already have an account?{' '}
-            <button type="button" className="link-button" onClick={onSwitchToLogin}>
+            Already have an account?{" "}
+            <button
+              type="button"
+              className="link-button"
+              onClick={onSwitchToLogin}
+            >
               Login here
             </button>
           </p>
         </div>
       </div>
-
-      {/* Toast Notification */}
-      {showToast && (
-        <div className={`toast-notification ${toastMessage.includes('not match') ? 'toast-error' : ''}`}>
-          <div className="toast-icon">{toastMessage.includes('not match') ? <XCircle /> : <CheckCircle2 />}</div>
-          <div className="toast-content">
-            <p className="toast-title">{toastMessage.includes('not match') ? 'Error' : 'Success'}</p>
-            <p className="toast-message">{toastMessage}</p>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

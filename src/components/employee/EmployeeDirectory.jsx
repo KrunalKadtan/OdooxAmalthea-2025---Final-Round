@@ -173,16 +173,6 @@ function EmployeeDirectory() {
             <h1 className="page-title">{selectedEmployee.name}</h1>
             <p className="page-subtitle">Employee Profile</p>
           </div>
-          <button
-            className="btn-edit"
-            onClick={() => {
-              setEditEmployee({ ...selectedEmployee });
-              setShowEditDialog(true);
-            }}
-          >
-            <Edit className="btn-icon" />
-            Edit Profile
-          </button>
         </div>
 
         <div className="profile-grid">
@@ -446,12 +436,8 @@ function EmployeeDirectory() {
       <div className="page-header">
         <div>
           <h1 className="page-title">Employee Directory</h1>
-          <p className="page-subtitle">View and manage employee profiles</p>
+          <p className="page-subtitle">View employee profiles</p>
         </div>
-        <button className="btn-primary" onClick={() => setShowAddDialog(true)}>
-          <Plus className="btn-icon" />
-          NEW
-        </button>
       </div>
 
       {/* Add Employee Dialog */}
