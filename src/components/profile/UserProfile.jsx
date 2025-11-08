@@ -4,6 +4,9 @@ import "./UserProfile.css";
 
 function UserProfile({ userName, userRole = "Administrator" }) {
   const [activeTab, setActiveTab] = useState("resume");
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const [editedProfile, setEditedProfile] = useState(null);
+  const [isEditingAbout, setIsEditingAbout] = useState(false);
   const [skills, setSkills] = useState([
     "Leadership",
     "Management",
@@ -18,6 +21,27 @@ function UserProfile({ userName, userRole = "Administrator" }) {
   const [showSkillDialog, setShowSkillDialog] = useState(false);
   const [showCertDialog, setShowCertDialog] = useState(false);
 
+  // Dropdown options
+  const departments = [
+    "Administration",
+    "Human Resources",
+    "Finance",
+    "IT",
+    "Sales",
+    "Marketing",
+    "Operations",
+    "Customer Support",
+  ];
+
+  const managers = [
+    "N/A",
+    "John Smith",
+    "Sarah Johnson",
+    "Michael Brown",
+    "Emily Davis",
+    "David Wilson",
+  ];
+
   // Security state
   const [passwordData, setPasswordData] = useState({
     loginId: "OIAD20220001",
@@ -30,7 +54,7 @@ function UserProfile({ userName, userRole = "Administrator" }) {
 
   const isAdmin = userRole === "Administrator";
 
-  const profile = {
+  const [profile, setProfile] = useState({
     name: userName,
     loginId: "OIAD20220001",
     email: "admin@workzen.com",
@@ -39,9 +63,25 @@ function UserProfile({ userName, userRole = "Administrator" }) {
     department: "Administration",
     manager: "N/A",
     location: "Mumbai, India",
+  });
+
+  const handleEditClick = () => {
+    setEditedProfile({ ...profile });
+    setIsEditingProfile(true);
   };
 
-  const salaryInfo = {
+  const handleSaveProfile = () => {
+    setProfile(editedProfile);
+    setIsEditingProfile(false);
+    setEditedProfile(null);
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditingProfile(false);
+    setEditedProfile(null);
+  };
+
+  const [salaryInfo, setSalaryInfo] = useState({
     monthWage: 50000,
     yearlyWage: 600000,
     workingDaysPerWeek: 5,
@@ -61,12 +101,31 @@ function UserProfile({ userName, userRole = "Administrator" }) {
     taxDeductions: {
       professionalTax: 200,
     },
+  });
+
+  const [isEditingSalary, setIsEditingSalary] = useState(false);
+  const [editedSalaryInfo, setEditedSalaryInfo] = useState(null);
+
+  const handleEditSalary = () => {
+    setEditedSalaryInfo({ ...salaryInfo });
+    setIsEditingSalary(true);
+  };
+
+  const handleSaveSalary = () => {
+    setSalaryInfo(editedSalaryInfo);
+    setIsEditingSalary(false);
+    setEditedSalaryInfo(null);
+  };
+
+  const handleCancelSalaryEdit = () => {
+    setIsEditingSalary(false);
+    setEditedSalaryInfo(null);
   };
 
   const canViewSalary =
     userRole === "Administrator" || userRole === "Payroll Officer";
 
-  const privateInfo = {
+  const [privateInfo, setPrivateInfo] = useState({
     dateOfBirth: "1990-05-15",
     residingAddress:
       "123 Main Street, Apartment 4B, Mumbai, Maharashtra 400001",
@@ -83,10 +142,55 @@ function UserProfile({ userName, userRole = "Administrator" }) {
       uanNo: "123456789012",
       empCode: "EMP2022001",
     },
+  });
+
+  const [isEditingPrivateInfo, setIsEditingPrivateInfo] = useState(false);
+  const [editedPrivateInfo, setEditedPrivateInfo] = useState(null);
+
+  // Dropdown options for private info
+  const genderOptions = ["Male", "Female", "Other", "Prefer not to say"];
+  const maritalStatusOptions = ["Single", "Married", "Divorced", "Widowed"];
+  const nationalityOptions = ["Indian", "American", "British", "Canadian", "Australian", "Other"];
+
+  const handleEditPrivateInfo = () => {
+    setEditedPrivateInfo({ ...privateInfo });
+    setIsEditingPrivateInfo(true);
   };
 
-  const about =
-    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.";
+  const handleSavePrivateInfo = () => {
+    setPrivateInfo(editedPrivateInfo);
+    setIsEditingPrivateInfo(false);
+    setEditedPrivateInfo(null);
+  };
+
+  const handleCancelPrivateInfoEdit = () => {
+    setIsEditingPrivateInfo(false);
+    setEditedPrivateInfo(null);
+  };
+
+  const [aboutSections, setAboutSections] = useState({
+    about: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    loveAboutJob: "I love the collaborative environment and the opportunity to work with talented individuals. The challenges keep me motivated and help me grow professionally every day.",
+    interestsHobbies: "Reading technology blogs, playing chess, hiking on weekends, and exploring new cuisines. I also enjoy photography and capturing moments during my travels.",
+  });
+
+  const [editedAboutSections, setEditedAboutSections] = useState(null);
+
+  const handleEditAbout = () => {
+    setEditedAboutSections({ ...aboutSections });
+    setIsEditingAbout(true);
+  };
+
+  const handleSaveAbout = () => {
+    setAboutSections(editedAboutSections);
+    setIsEditingAbout(false);
+    setEditedAboutSections(null);
+  };
+
+  const handleCancelAboutEdit = () => {
+    setIsEditingAbout(false);
+    setEditedAboutSections(null);
+  };
 
   const getInitials = (name) => {
     return name
@@ -174,7 +278,7 @@ function UserProfile({ userName, userRole = "Administrator" }) {
               <div className="profile-avatar-large">
                 {getInitials(profile.name)}
               </div>
-              <button className="profile-edit-btn">
+              <button className="profile-edit-btn" onClick={handleEditClick}>
                 <Pencil className="edit-icon" />
               </button>
             </div>
@@ -256,17 +360,24 @@ function UserProfile({ userName, userRole = "Administrator" }) {
             <div className="resume-content">
               <div className="resume-left">
                 <div className="profile-card">
-                  <div className="profile-section">
-                    <h3>About</h3>
-                    <p className="section-text">{about}</p>
+                  <div className="about-header">
+                    <h3>About Me</h3>
+                    <button className="edit-about-btn" onClick={handleEditAbout}>
+                      <Pencil size={16} />
+                      Edit
+                    </button>
                   </div>
                   <div className="profile-section">
-                    <h3>What I love about my job</h3>
-                    <p className="section-text">{about}</p>
+                    <h4>About</h4>
+                    <p className="section-text">{aboutSections.about}</p>
                   </div>
                   <div className="profile-section">
-                    <h3>My interests and hobbies</h3>
-                    <p className="section-text">{about}</p>
+                    <h4>What I love about my job</h4>
+                    <p className="section-text">{aboutSections.loveAboutJob}</p>
+                  </div>
+                  <div className="profile-section">
+                    <h4>My interests and hobbies</h4>
+                    <p className="section-text">{aboutSections.interestsHobbies}</p>
                   </div>
                 </div>
               </div>
@@ -329,7 +440,13 @@ function UserProfile({ userName, userRole = "Administrator" }) {
             <div className="private-info-content">
               {/* Personal Information */}
               <div className="profile-card">
-                <h3 className="private-info-title">Personal Information</h3>
+                <div className="private-info-header">
+                  <h3 className="private-info-title">Personal Information</h3>
+                  <button className="edit-about-btn" onClick={handleEditPrivateInfo}>
+                    <Pencil size={16} />
+                    Edit
+                  </button>
+                </div>
                 <div className="private-info-form">
                   <div className="form-row">
                     <div className="form-field">
@@ -476,6 +593,13 @@ function UserProfile({ userName, userRole = "Administrator" }) {
 
           {activeTab === "salary-info" && (
             <div className="profile-card">
+              <div className="salary-header">
+                <h3>Salary Information</h3>
+                <button className="edit-about-btn" onClick={handleEditSalary}>
+                  <Pencil size={16} />
+                  Edit
+                </button>
+              </div>
               <div className="salary-content">
                 {/* Basic Wage Info */}
                 <div className="salary-basic-info">
@@ -950,6 +1074,899 @@ function UserProfile({ userName, userRole = "Administrator" }) {
               </button>
               <button className="btn-primary" onClick={handleAddCertification}>
                 Add Certification
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Profile Dialog */}
+      {isEditingProfile && editedProfile && (
+        <div className="dialog-overlay" onClick={handleCancelEdit}>
+          <div className="dialog-box" onClick={(e) => e.stopPropagation()}>
+            <div className="dialog-header-custom">
+              <h3>Edit Profile Information</h3>
+              <button className="dialog-close-btn" onClick={handleCancelEdit}>
+                <X />
+              </button>
+            </div>
+            <div className="dialog-body-custom">
+              <div className="edit-form-grid">
+                <div className="edit-form-field">
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    value={editedProfile.email}
+                    onChange={(e) =>
+                      setEditedProfile({ ...editedProfile, email: e.target.value })
+                    }
+                  />
+                </div>
+                <div className="edit-form-field">
+                  <label>Mobile</label>
+                  <input
+                    type="tel"
+                    value={editedProfile.mobile}
+                    onChange={(e) =>
+                      setEditedProfile({ ...editedProfile, mobile: e.target.value })
+                    }
+                  />
+                </div>
+                <div className="edit-form-field">
+                  <label>Company</label>
+                  <input
+                    type="text"
+                    value={editedProfile.company}
+                    onChange={(e) =>
+                      setEditedProfile({ ...editedProfile, company: e.target.value })
+                    }
+                  />
+                </div>
+                <div className="edit-form-field">
+                  <label>Department</label>
+                  <select
+                    value={editedProfile.department}
+                    onChange={(e) =>
+                      setEditedProfile({
+                        ...editedProfile,
+                        department: e.target.value,
+                      })
+                    }
+                  >
+                    {departments.map((dept) => (
+                      <option key={dept} value={dept}>
+                        {dept}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="edit-form-field">
+                  <label>Manager</label>
+                  <select
+                    value={editedProfile.manager}
+                    onChange={(e) =>
+                      setEditedProfile({ ...editedProfile, manager: e.target.value })
+                    }
+                  >
+                    {managers.map((mgr) => (
+                      <option key={mgr} value={mgr}>
+                        {mgr}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="edit-form-field">
+                  <label>Location</label>
+                  <input
+                    type="text"
+                    value={editedProfile.location}
+                    onChange={(e) =>
+                      setEditedProfile({ ...editedProfile, location: e.target.value })
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="dialog-actions">
+              <button className="btn-cancel" onClick={handleCancelEdit}>
+                Cancel
+              </button>
+              <button className="btn-primary" onClick={handleSaveProfile}>
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit About Sections Dialog */}
+      {isEditingAbout && editedAboutSections && (
+        <div className="dialog-overlay" onClick={handleCancelAboutEdit}>
+          <div className="dialog-box dialog-box-large" onClick={(e) => e.stopPropagation()}>
+            <div className="dialog-header-custom">
+              <h3>Edit About Sections</h3>
+              <button className="dialog-close-btn" onClick={handleCancelAboutEdit}>
+                <X />
+              </button>
+            </div>
+            <div className="dialog-body-custom">
+              <div className="edit-about-form">
+                <div className="edit-form-field">
+                  <label>About</label>
+                  <textarea
+                    rows="4"
+                    value={editedAboutSections.about}
+                    onChange={(e) =>
+                      setEditedAboutSections({
+                        ...editedAboutSections,
+                        about: e.target.value,
+                      })
+                    }
+                    placeholder="Tell us about yourself..."
+                  />
+                </div>
+                <div className="edit-form-field">
+                  <label>What I love about my job</label>
+                  <textarea
+                    rows="4"
+                    value={editedAboutSections.loveAboutJob}
+                    onChange={(e) =>
+                      setEditedAboutSections({
+                        ...editedAboutSections,
+                        loveAboutJob: e.target.value,
+                      })
+                    }
+                    placeholder="What do you love about your job..."
+                  />
+                </div>
+                <div className="edit-form-field">
+                  <label>My interests and hobbies</label>
+                  <textarea
+                    rows="4"
+                    value={editedAboutSections.interestsHobbies}
+                    onChange={(e) =>
+                      setEditedAboutSections({
+                        ...editedAboutSections,
+                        interestsHobbies: e.target.value,
+                      })
+                    }
+                    placeholder="Share your interests and hobbies..."
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="dialog-actions">
+              <button className="btn-cancel" onClick={handleCancelAboutEdit}>
+                Cancel
+              </button>
+              <button className="btn-primary" onClick={handleSaveAbout}>
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Private Info Dialog */}
+      {isEditingPrivateInfo && editedPrivateInfo && (
+        <div className="dialog-overlay" onClick={handleCancelPrivateInfoEdit}>
+          <div className="dialog-box dialog-box-large" onClick={(e) => e.stopPropagation()}>
+            <div className="dialog-header-custom">
+              <h3>Edit Private Information</h3>
+              <button className="dialog-close-btn" onClick={handleCancelPrivateInfoEdit}>
+                <X />
+              </button>
+            </div>
+            <div className="dialog-body-custom">
+              <div className="edit-private-info-form">
+                <h4 className="form-section-title">Personal Information</h4>
+                <div className="edit-form-grid">
+                  <div className="edit-form-field">
+                    <label>Date of Birth</label>
+                    <input
+                      type="date"
+                      value={editedPrivateInfo.dateOfBirth}
+                      onChange={(e) =>
+                        setEditedPrivateInfo({
+                          ...editedPrivateInfo,
+                          dateOfBirth: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                  <div className="edit-form-field">
+                    <label>Date of Joining</label>
+                    <input
+                      type="date"
+                      value={editedPrivateInfo.dateOfJoining}
+                      onChange={(e) =>
+                        setEditedPrivateInfo({
+                          ...editedPrivateInfo,
+                          dateOfJoining: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+
+                <div className="edit-form-field">
+                  <label>Residing Address</label>
+                  <textarea
+                    rows="2"
+                    value={editedPrivateInfo.residingAddress}
+                    onChange={(e) =>
+                      setEditedPrivateInfo({
+                        ...editedPrivateInfo,
+                        residingAddress: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+
+                <div className="edit-form-grid">
+                  <div className="edit-form-field">
+                    <label>Nationality</label>
+                    <select
+                      value={editedPrivateInfo.nationality}
+                      onChange={(e) =>
+                        setEditedPrivateInfo({
+                          ...editedPrivateInfo,
+                          nationality: e.target.value,
+                        })
+                      }
+                    >
+                      {nationalityOptions.map((nat) => (
+                        <option key={nat} value={nat}>
+                          {nat}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="edit-form-field">
+                    <label>Gender</label>
+                    <select
+                      value={editedPrivateInfo.gender}
+                      onChange={(e) =>
+                        setEditedPrivateInfo({
+                          ...editedPrivateInfo,
+                          gender: e.target.value,
+                        })
+                      }
+                    >
+                      {genderOptions.map((gen) => (
+                        <option key={gen} value={gen}>
+                          {gen}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="edit-form-grid">
+                  <div className="edit-form-field">
+                    <label>Personal Email</label>
+                    <input
+                      type="email"
+                      value={editedPrivateInfo.personalEmail}
+                      onChange={(e) =>
+                        setEditedPrivateInfo({
+                          ...editedPrivateInfo,
+                          personalEmail: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                  <div className="edit-form-field">
+                    <label>Marital Status</label>
+                    <select
+                      value={editedPrivateInfo.maritalStatus}
+                      onChange={(e) =>
+                        setEditedPrivateInfo({
+                          ...editedPrivateInfo,
+                          maritalStatus: e.target.value,
+                        })
+                      }
+                    >
+                      {maritalStatusOptions.map((status) => (
+                        <option key={status} value={status}>
+                          {status}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <h4 className="form-section-title">Bank Details</h4>
+                <div className="edit-form-grid">
+                  <div className="edit-form-field">
+                    <label>Account Number</label>
+                    <input
+                      type="text"
+                      value={editedPrivateInfo.bankDetails.accountNumber}
+                      onChange={(e) =>
+                        setEditedPrivateInfo({
+                          ...editedPrivateInfo,
+                          bankDetails: {
+                            ...editedPrivateInfo.bankDetails,
+                            accountNumber: e.target.value,
+                          },
+                        })
+                      }
+                    />
+                  </div>
+                  <div className="edit-form-field">
+                    <label>Bank Name</label>
+                    <input
+                      type="text"
+                      value={editedPrivateInfo.bankDetails.bankName}
+                      onChange={(e) =>
+                        setEditedPrivateInfo({
+                          ...editedPrivateInfo,
+                          bankDetails: {
+                            ...editedPrivateInfo.bankDetails,
+                            bankName: e.target.value,
+                          },
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+
+                <div className="edit-form-grid">
+                  <div className="edit-form-field">
+                    <label>IFSC Code</label>
+                    <input
+                      type="text"
+                      value={editedPrivateInfo.bankDetails.ifscCode}
+                      onChange={(e) =>
+                        setEditedPrivateInfo({
+                          ...editedPrivateInfo,
+                          bankDetails: {
+                            ...editedPrivateInfo.bankDetails,
+                            ifscCode: e.target.value,
+                          },
+                        })
+                      }
+                    />
+                  </div>
+                  <div className="edit-form-field">
+                    <label>PAN No</label>
+                    <input
+                      type="text"
+                      value={editedPrivateInfo.bankDetails.panNo}
+                      onChange={(e) =>
+                        setEditedPrivateInfo({
+                          ...editedPrivateInfo,
+                          bankDetails: {
+                            ...editedPrivateInfo.bankDetails,
+                            panNo: e.target.value,
+                          },
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+
+                <div className="edit-form-grid">
+                  <div className="edit-form-field">
+                    <label>UAN No</label>
+                    <input
+                      type="text"
+                      value={editedPrivateInfo.bankDetails.uanNo}
+                      onChange={(e) =>
+                        setEditedPrivateInfo({
+                          ...editedPrivateInfo,
+                          bankDetails: {
+                            ...editedPrivateInfo.bankDetails,
+                            uanNo: e.target.value,
+                          },
+                        })
+                      }
+                    />
+                  </div>
+                  <div className="edit-form-field">
+                    <label>Emp Code</label>
+                    <input
+                      type="text"
+                      value={editedPrivateInfo.bankDetails.empCode}
+                      onChange={(e) =>
+                        setEditedPrivateInfo({
+                          ...editedPrivateInfo,
+                          bankDetails: {
+                            ...editedPrivateInfo.bankDetails,
+                            empCode: e.target.value,
+                          },
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="dialog-actions">
+              <button className="btn-cancel" onClick={handleCancelPrivateInfoEdit}>
+                Cancel
+              </button>
+              <button className="btn-primary" onClick={handleSavePrivateInfo}>
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Salary Info Dialog */}
+      {isEditingSalary && editedSalaryInfo && (
+        <div className="dialog-overlay" onClick={handleCancelSalaryEdit}>
+          <div className="dialog-box dialog-box-large" onClick={(e) => e.stopPropagation()}>
+            <div className="dialog-header-custom">
+              <h3>Edit Salary Information</h3>
+              <button className="dialog-close-btn" onClick={handleCancelSalaryEdit}>
+                <X />
+              </button>
+            </div>
+            <div className="dialog-body-custom">
+              <div className="edit-salary-form">
+                <h4 className="form-section-title">Basic Wage Information</h4>
+                <div className="edit-form-grid">
+                  <div className="edit-form-field">
+                    <label>Monthly Wage (₹)</label>
+                    <input
+                      type="number"
+                      value={editedSalaryInfo.monthWage}
+                      onChange={(e) =>
+                        setEditedSalaryInfo({
+                          ...editedSalaryInfo,
+                          monthWage: parseFloat(e.target.value) || 0,
+                        })
+                      }
+                    />
+                  </div>
+                  <div className="edit-form-field">
+                    <label>Yearly Wage (₹)</label>
+                    <input
+                      type="number"
+                      value={editedSalaryInfo.yearlyWage}
+                      onChange={(e) =>
+                        setEditedSalaryInfo({
+                          ...editedSalaryInfo,
+                          yearlyWage: parseFloat(e.target.value) || 0,
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+
+                <div className="edit-form-grid">
+                  <div className="edit-form-field">
+                    <label>Working Days Per Week</label>
+                    <input
+                      type="number"
+                      min="1"
+                      max="7"
+                      value={editedSalaryInfo.workingDaysPerWeek}
+                      onChange={(e) =>
+                        setEditedSalaryInfo({
+                          ...editedSalaryInfo,
+                          workingDaysPerWeek: parseInt(e.target.value) || 5,
+                        })
+                      }
+                    />
+                  </div>
+                  <div className="edit-form-field">
+                    <label>Break Time (Hours)</label>
+                    <input
+                      type="number"
+                      min="0"
+                      max="8"
+                      value={editedSalaryInfo.breakTimeHours}
+                      onChange={(e) =>
+                        setEditedSalaryInfo({
+                          ...editedSalaryInfo,
+                          breakTimeHours: parseFloat(e.target.value) || 1,
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+
+                <h4 className="form-section-title">Salary Components</h4>
+                
+                {/* Basic Salary */}
+                <div className="salary-component-row">
+                  <label className="component-row-label">Basic Salary</label>
+                  <div className="component-inputs-group">
+                    <div className="edit-form-field">
+                      <label>Amount (₹)</label>
+                      <input
+                        type="number"
+                        value={editedSalaryInfo.components.basicSalary.amount}
+                        onChange={(e) =>
+                          setEditedSalaryInfo({
+                            ...editedSalaryInfo,
+                            components: {
+                              ...editedSalaryInfo.components,
+                              basicSalary: {
+                                ...editedSalaryInfo.components.basicSalary,
+                                amount: parseFloat(e.target.value) || 0,
+                              },
+                            },
+                          })
+                        }
+                      />
+                    </div>
+                    <div className="edit-form-field">
+                      <label>Percentage (%)</label>
+                      <input
+                        type="number"
+                        step="0.01"
+                        value={editedSalaryInfo.components.basicSalary.percentage}
+                        onChange={(e) =>
+                          setEditedSalaryInfo({
+                            ...editedSalaryInfo,
+                            components: {
+                              ...editedSalaryInfo.components,
+                              basicSalary: {
+                                ...editedSalaryInfo.components.basicSalary,
+                                percentage: parseFloat(e.target.value) || 0,
+                              },
+                            },
+                          })
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* House Rent Allowance */}
+                <div className="salary-component-row">
+                  <label className="component-row-label">House Rent Allowance</label>
+                  <div className="component-inputs-group">
+                    <div className="edit-form-field">
+                      <label>Amount (₹)</label>
+                      <input
+                        type="number"
+                        value={editedSalaryInfo.components.houseRent.amount}
+                        onChange={(e) =>
+                          setEditedSalaryInfo({
+                            ...editedSalaryInfo,
+                            components: {
+                              ...editedSalaryInfo.components,
+                              houseRent: {
+                                ...editedSalaryInfo.components.houseRent,
+                                amount: parseFloat(e.target.value) || 0,
+                              },
+                            },
+                          })
+                        }
+                      />
+                    </div>
+                    <div className="edit-form-field">
+                      <label>Percentage (%)</label>
+                      <input
+                        type="number"
+                        step="0.01"
+                        value={editedSalaryInfo.components.houseRent.percentage}
+                        onChange={(e) =>
+                          setEditedSalaryInfo({
+                            ...editedSalaryInfo,
+                            components: {
+                              ...editedSalaryInfo.components,
+                              houseRent: {
+                                ...editedSalaryInfo.components.houseRent,
+                                percentage: parseFloat(e.target.value) || 0,
+                              },
+                            },
+                          })
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Standard Allowance */}
+                <div className="salary-component-row">
+                  <label className="component-row-label">Standard Allowance</label>
+                  <div className="component-inputs-group">
+                    <div className="edit-form-field">
+                      <label>Amount (₹)</label>
+                      <input
+                        type="number"
+                        value={editedSalaryInfo.components.standardAllowance.amount}
+                        onChange={(e) =>
+                          setEditedSalaryInfo({
+                            ...editedSalaryInfo,
+                            components: {
+                              ...editedSalaryInfo.components,
+                              standardAllowance: {
+                                ...editedSalaryInfo.components.standardAllowance,
+                                amount: parseFloat(e.target.value) || 0,
+                              },
+                            },
+                          })
+                        }
+                      />
+                    </div>
+                    <div className="edit-form-field">
+                      <label>Percentage (%)</label>
+                      <input
+                        type="number"
+                        step="0.01"
+                        value={editedSalaryInfo.components.standardAllowance.percentage}
+                        onChange={(e) =>
+                          setEditedSalaryInfo({
+                            ...editedSalaryInfo,
+                            components: {
+                              ...editedSalaryInfo.components,
+                              standardAllowance: {
+                                ...editedSalaryInfo.components.standardAllowance,
+                                percentage: parseFloat(e.target.value) || 0,
+                              },
+                            },
+                          })
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Performance Bonus */}
+                <div className="salary-component-row">
+                  <label className="component-row-label">Performance Bonus</label>
+                  <div className="component-inputs-group">
+                    <div className="edit-form-field">
+                      <label>Amount (₹)</label>
+                      <input
+                        type="number"
+                        value={editedSalaryInfo.components.performanceBonus.amount}
+                        onChange={(e) =>
+                          setEditedSalaryInfo({
+                            ...editedSalaryInfo,
+                            components: {
+                              ...editedSalaryInfo.components,
+                              performanceBonus: {
+                                ...editedSalaryInfo.components.performanceBonus,
+                                amount: parseFloat(e.target.value) || 0,
+                              },
+                            },
+                          })
+                        }
+                      />
+                    </div>
+                    <div className="edit-form-field">
+                      <label>Percentage (%)</label>
+                      <input
+                        type="number"
+                        step="0.01"
+                        value={editedSalaryInfo.components.performanceBonus.percentage}
+                        onChange={(e) =>
+                          setEditedSalaryInfo({
+                            ...editedSalaryInfo,
+                            components: {
+                              ...editedSalaryInfo.components,
+                              performanceBonus: {
+                                ...editedSalaryInfo.components.performanceBonus,
+                                percentage: parseFloat(e.target.value) || 0,
+                              },
+                            },
+                          })
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Leave Travel Allowance */}
+                <div className="salary-component-row">
+                  <label className="component-row-label">Leave Travel Allowance</label>
+                  <div className="component-inputs-group">
+                    <div className="edit-form-field">
+                      <label>Amount (₹)</label>
+                      <input
+                        type="number"
+                        value={editedSalaryInfo.components.leaveTravelAllowance.amount}
+                        onChange={(e) =>
+                          setEditedSalaryInfo({
+                            ...editedSalaryInfo,
+                            components: {
+                              ...editedSalaryInfo.components,
+                              leaveTravelAllowance: {
+                                ...editedSalaryInfo.components.leaveTravelAllowance,
+                                amount: parseFloat(e.target.value) || 0,
+                              },
+                            },
+                          })
+                        }
+                      />
+                    </div>
+                    <div className="edit-form-field">
+                      <label>Percentage (%)</label>
+                      <input
+                        type="number"
+                        step="0.01"
+                        value={editedSalaryInfo.components.leaveTravelAllowance.percentage}
+                        onChange={(e) =>
+                          setEditedSalaryInfo({
+                            ...editedSalaryInfo,
+                            components: {
+                              ...editedSalaryInfo.components,
+                              leaveTravelAllowance: {
+                                ...editedSalaryInfo.components.leaveTravelAllowance,
+                                percentage: parseFloat(e.target.value) || 0,
+                              },
+                            },
+                          })
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Fixed Allowance */}
+                <div className="salary-component-row">
+                  <label className="component-row-label">Fixed Allowance</label>
+                  <div className="component-inputs-group">
+                    <div className="edit-form-field">
+                      <label>Amount (₹)</label>
+                      <input
+                        type="number"
+                        value={editedSalaryInfo.components.fixedAllowance.amount}
+                        onChange={(e) =>
+                          setEditedSalaryInfo({
+                            ...editedSalaryInfo,
+                            components: {
+                              ...editedSalaryInfo.components,
+                              fixedAllowance: {
+                                ...editedSalaryInfo.components.fixedAllowance,
+                                amount: parseFloat(e.target.value) || 0,
+                              },
+                            },
+                          })
+                        }
+                      />
+                    </div>
+                    <div className="edit-form-field">
+                      <label>Percentage (%)</label>
+                      <input
+                        type="number"
+                        step="0.01"
+                        value={editedSalaryInfo.components.fixedAllowance.percentage}
+                        onChange={(e) =>
+                          setEditedSalaryInfo({
+                            ...editedSalaryInfo,
+                            components: {
+                              ...editedSalaryInfo.components,
+                              fixedAllowance: {
+                                ...editedSalaryInfo.components.fixedAllowance,
+                                percentage: parseFloat(e.target.value) || 0,
+                              },
+                            },
+                          })
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <h4 className="form-section-title">Provident Fund</h4>
+                
+                {/* Employee PF */}
+                <div className="salary-component-row">
+                  <label className="component-row-label">Employee PF</label>
+                  <div className="component-inputs-group">
+                    <div className="edit-form-field">
+                      <label>Amount (₹)</label>
+                      <input
+                        type="number"
+                        value={editedSalaryInfo.providentFund.employee.amount}
+                        onChange={(e) =>
+                          setEditedSalaryInfo({
+                            ...editedSalaryInfo,
+                            providentFund: {
+                              ...editedSalaryInfo.providentFund,
+                              employee: {
+                                ...editedSalaryInfo.providentFund.employee,
+                                amount: parseFloat(e.target.value) || 0,
+                              },
+                            },
+                          })
+                        }
+                      />
+                    </div>
+                    <div className="edit-form-field">
+                      <label>Percentage (%)</label>
+                      <input
+                        type="number"
+                        step="0.01"
+                        value={editedSalaryInfo.providentFund.employee.percentage}
+                        onChange={(e) =>
+                          setEditedSalaryInfo({
+                            ...editedSalaryInfo,
+                            providentFund: {
+                              ...editedSalaryInfo.providentFund,
+                              employee: {
+                                ...editedSalaryInfo.providentFund.employee,
+                                percentage: parseFloat(e.target.value) || 0,
+                              },
+                            },
+                          })
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Employer PF */}
+                <div className="salary-component-row">
+                  <label className="component-row-label">Employer PF</label>
+                  <div className="component-inputs-group">
+                    <div className="edit-form-field">
+                      <label>Amount (₹)</label>
+                      <input
+                        type="number"
+                        value={editedSalaryInfo.providentFund.employer.amount}
+                        onChange={(e) =>
+                          setEditedSalaryInfo({
+                            ...editedSalaryInfo,
+                            providentFund: {
+                              ...editedSalaryInfo.providentFund,
+                              employer: {
+                                ...editedSalaryInfo.providentFund.employer,
+                                amount: parseFloat(e.target.value) || 0,
+                              },
+                            },
+                          })
+                        }
+                      />
+                    </div>
+                    <div className="edit-form-field">
+                      <label>Percentage (%)</label>
+                      <input
+                        type="number"
+                        step="0.01"
+                        value={editedSalaryInfo.providentFund.employer.percentage}
+                        onChange={(e) =>
+                          setEditedSalaryInfo({
+                            ...editedSalaryInfo,
+                            providentFund: {
+                              ...editedSalaryInfo.providentFund,
+                              employer: {
+                                ...editedSalaryInfo.providentFund.employer,
+                                percentage: parseFloat(e.target.value) || 0,
+                              },
+                            },
+                          })
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <h4 className="form-section-title">Tax Deductions</h4>
+                <div className="edit-form-field">
+                  <label>Professional Tax (₹)</label>
+                  <input
+                    type="number"
+                    value={editedSalaryInfo.taxDeductions.professionalTax}
+                    onChange={(e) =>
+                      setEditedSalaryInfo({
+                        ...editedSalaryInfo,
+                        taxDeductions: {
+                          ...editedSalaryInfo.taxDeductions,
+                          professionalTax: parseFloat(e.target.value) || 0,
+                        },
+                      })
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="dialog-actions">
+              <button className="btn-cancel" onClick={handleCancelSalaryEdit}>
+                Cancel
+              </button>
+              <button className="btn-primary" onClick={handleSaveSalary}>
+                Save Changes
               </button>
             </div>
           </div>

@@ -9,36 +9,103 @@ function PayrollPage() {
   const [payrunView, setPayrunView] = useState("payrun");
   const [selectedPayslip, setSelectedPayslip] = useState(null);
   const [payslipTab, setPayslipTab] = useState("worked-days");
+  const [selectedPayrunPeriod, setSelectedPayrunPeriod] = useState(null);
 
   // Mock data for charts
   const employerCostData = {
     monthly: [
-      { month: "Jan 2025", value: 45000 },
-      { month: "Feb 2025", value: 52000 },
-      { month: "Mar 2025", value: 58000 },
+      { month: "Aug", value: 45000 },
+      { month: "Sep", value: 52000 },
+      { month: "Oct", value: 58000 },
+      { month: "Nov", value: 61000 },
+      { month: "Dec", value: 65000 },
     ],
     annually: [
-      { month: "Jan 2025", value: 540000 },
-      { month: "Feb 2025", value: 624000 },
-      { month: "Mar 2025", value: 696000 },
+      { month: "2021", value: 540000 },
+      { month: "2022", value: 624000 },
+      { month: "2023", value: 696000 },
+      { month: "2024", value: 732000 },
+      { month: "2025", value: 780000 },
     ],
   };
 
   const employeeCountData = {
     monthly: [
-      { month: "Jan 2025", value: 110 },
-      { month: "Feb 2025", value: 115 },
-      { month: "Mar 2025", value: 118 },
+      { month: "Aug", value: 110 },
+      { month: "Sep", value: 115 },
+      { month: "Oct", value: 118 },
+      { month: "Nov", value: 120 },
+      { month: "Dec", value: 125 },
     ],
     annually: [
-      { month: "Jan 2025", value: 105 },
-      { month: "Feb 2025", value: 112 },
-      { month: "Mar 2025", value: 118 },
+      { month: "2021", value: 95 },
+      { month: "2022", value: 105 },
+      { month: "2023", value: 112 },
+      { month: "2024", value: 118 },
+      { month: "2025", value: 125 },
     ],
   };
 
   // Mock payrun data
-  const payruns = [
+  const [payruns, setPayruns] = useState([
+    {
+      period: "Dec 2025",
+      employerCost: 52000,
+      gross: 52000,
+      net: 45500,
+      status: "pending",
+      employees: [
+        {
+          name: "John Doe",
+          employerCost: 50000,
+          basicWage: 25000,
+          grossWage: 50000,
+          netWage: 43800,
+          status: "pending",
+        },
+        {
+          name: "Jane Smith",
+          employerCost: 45000,
+          basicWage: 22000,
+          grossWage: 45000,
+          netWage: 39500,
+          status: "pending",
+        },
+        {
+          name: "Mike Johnson",
+          employerCost: 48000,
+          basicWage: 24000,
+          grossWage: 48000,
+          netWage: 42000,
+          status: "pending",
+        },
+      ],
+    },
+    {
+      period: "Nov 2025",
+      employerCost: 51000,
+      gross: 51000,
+      net: 44600,
+      status: "pending",
+      employees: [
+        {
+          name: "John Doe",
+          employerCost: 50000,
+          basicWage: 25000,
+          grossWage: 50000,
+          netWage: 43800,
+          status: "pending",
+        },
+        {
+          name: "Sarah Williams",
+          employerCost: 46000,
+          basicWage: 23000,
+          grossWage: 46000,
+          netWage: 40300,
+          status: "pending",
+        },
+      ],
+    },
     {
       period: "Oct 2025",
       employerCost: 50000,
@@ -78,9 +145,41 @@ function PayrollPage() {
       gross: 48000,
       net: 42000,
       status: "done",
-      employees: [],
+      employees: [
+        {
+          name: "John Doe",
+          employerCost: 48000,
+          basicWage: 24000,
+          grossWage: 48000,
+          netWage: 42000,
+          status: "done",
+        },
+      ],
     },
-  ];
+    {
+      period: "Aug 2025",
+      employerCost: 47000,
+      gross: 47000,
+      net: 41200,
+      status: "done",
+      employees: [
+        {
+          name: "John Doe",
+          employerCost: 47000,
+          basicWage: 23500,
+          grossWage: 47000,
+          netWage: 41200,
+          status: "done",
+        },
+      ],
+    },
+  ]);
+
+  // Filter payruns based on validation status
+  const filteredPayruns =
+    payrunView === "payrun"
+      ? payruns.filter((payrun) => payrun.status === "pending")
+      : payruns.filter((payrun) => payrun.status === "done");
 
   // Payslip data
   const payslipData = {
@@ -148,19 +247,99 @@ function PayrollPage() {
   };
 
   const handleValidate = () => {
-    alert("Payslip validated successfully!");
+    if (selectedPayslip && selectedPayrunPeriod) {
+      // Update the payrun and employee status to "done"
+      setPayruns((prevPayruns) =>
+        prevPayruns.map((payrun) => {
+          if (payrun.period === selectedPayrunPeriod) {
+            // Update all employees in this payrun
+            const updatedEmployees = payrun.employees.map((emp) =>
+              emp.name === selectedPayslip.name
+                ? { ...emp, status: "done" }
+                : emp
+            );
+            
+            // Check if all employees are validated
+            const allValidated = updatedEmployees.every(
+              (emp) => emp.status === "done"
+            );
+            
+            return {
+              ...payrun,
+              employees: updatedEmployees,
+              status: allValidated ? "done" : "pending",
+            };
+          }
+          return payrun;
+        })
+      );
+
+      // Update selected payslip status
+      setSelectedPayslip({ ...selectedPayslip, status: "done" });
+      
+      // Close payslip view and return to list
+      setTimeout(() => {
+        setSelectedPayslip(null);
+        setSelectedPayrunPeriod(null);
+        // Switch to validate tab
+        setPayrunView("validate");
+      }, 500);
+      
+      alert("Payslip validated successfully!");
+    }
+  };
+
+  const handleValidateFromTable = (employee, payrunPeriod) => {
+    // Find the current payrun and check if this will complete it
+    const currentPayrun = payruns.find((p) => p.period === payrunPeriod);
+    
+    if (!currentPayrun) return;
+    
+    // Simulate the update to check if all will be done
+    const updatedEmployees = currentPayrun.employees.map((emp) =>
+      emp.name === employee.name ? { ...emp, status: "done" } : emp
+    );
+    
+    const allWillBeValidated = updatedEmployees.every(
+      (emp) => emp.status === "done"
+    );
+
+    // Update the payrun and employee status to "done"
+    setPayruns((prevPayruns) =>
+      prevPayruns.map((payrun) => {
+        if (payrun.period === payrunPeriod) {
+          return {
+            ...payrun,
+            employees: updatedEmployees,
+            status: allWillBeValidated ? "done" : "pending",
+          };
+        }
+        return payrun;
+      })
+    );
+
+    alert(`${employee.name}'s payslip validated successfully!`);
+    
+    // Switch to validate tab if all employees in payrun are now done
+    if (allWillBeValidated) {
+      setTimeout(() => {
+        setPayrunView("validate");
+      }, 100);
+    }
   };
 
   const handleCancel = () => {
     alert("Payslip cancelled!");
   };
 
-  const handleEmployeeClick = (employee) => {
+  const handleEmployeeClick = (employee, payrunPeriod) => {
     setSelectedPayslip(employee);
+    setSelectedPayrunPeriod(payrunPeriod);
   };
 
   const handleBackToPayrun = () => {
     setSelectedPayslip(null);
+    setSelectedPayrunPeriod(null);
   };
 
   // Render Payslip View
@@ -334,25 +513,42 @@ function PayrollPage() {
               ← Back to Payrun
             </button>
             <div className="action-buttons">
-              <button className="btn-primary">New Payslip</button>
-              <button className="btn-primary" onClick={handleCompute}>
-                Compute
-              </button>
-              <button className="btn-outline" onClick={handleValidate}>
-                Validate
-              </button>
-              <button className="btn-outline" onClick={handleCancel}>
-                Cancel
-              </button>
-              <button className="btn-outline" onClick={handlePrint}>
-                <Printer className="btn-icon" /> Print
-              </button>
+              {selectedPayslip.status === "pending" ? (
+                <>
+                  <button className="btn-primary">New Payslip</button>
+                  <button className="btn-primary" onClick={handleCompute}>
+                    Compute
+                  </button>
+                  <button className="btn-outline" onClick={handleValidate}>
+                    Validate
+                  </button>
+                  <button className="btn-outline" onClick={handleCancel}>
+                    Cancel
+                  </button>
+                  <button className="btn-outline" onClick={handlePrint}>
+                    <Printer className="btn-icon" /> Print
+                  </button>
+                </>
+              ) : (
+                <button className="btn-primary" onClick={handlePrint}>
+                  <Printer className="btn-icon" /> Print
+                </button>
+              )}
             </div>
           </div>
 
           <div className="payslip-card">
             <div className="payslip-header">
-              <h2>[{payslipData.employeeName}]</h2>
+              <div className="payslip-header-left">
+                <h2>[{payslipData.employeeName}]</h2>
+                <span
+                  className={`payslip-status-badge ${
+                    selectedPayslip.status === "done" ? "validated" : "pending"
+                  }`}
+                >
+                  {selectedPayslip.status === "done" ? "Validated" : "Pending"}
+                </span>
+              </div>
               <div className="payslip-info">
                 <div className="info-item">
                   <p className="info-label">Payrun</p>
@@ -605,7 +801,11 @@ function PayrollPage() {
                             100
                           }%`,
                         }}
-                      ></div>
+                      >
+                        <span className="chart-value">
+                          ₹{(item.value / 1000).toFixed(0)}k
+                        </span>
+                      </div>
                     </div>
                     <span className="chart-label">{item.month}</span>
                   </div>
@@ -652,7 +852,9 @@ function PayrollPage() {
                             100
                           }%`,
                         }}
-                      ></div>
+                      >
+                        <span className="chart-value">{item.value}</span>
+                      </div>
                     </div>
                     <span className="chart-label">{item.month}</span>
                   </div>
@@ -683,8 +885,17 @@ function PayrollPage() {
           </div>
 
           <div className="payrun-list">
-            {payruns.map((payrun, index) => (
-              <div key={index} className="payrun-card">
+            {filteredPayruns.length === 0 ? (
+              <div className="empty-state">
+                <p>
+                  {payrunView === "payrun"
+                    ? "No pending payruns to validate"
+                    : "No validated payruns yet"}
+                </p>
+              </div>
+            ) : (
+              filteredPayruns.map((payrun, index) => (
+                <div key={index} className="payrun-card">
                 <div className="payrun-header">
                   <div className="payrun-info">
                     <h3>Payrun {payrun.period}</h3>
@@ -738,7 +949,7 @@ function PayrollPage() {
                           <tr
                             key={empIndex}
                             className="employee-row"
-                            onClick={() => handleEmployeeClick(employee)}
+                            onClick={() => handleEmployeeClick(employee, payrun.period)}
                           >
                             <td>[{payrun.period}]</td>
                             <td className="employee-name">[{employee.name}]</td>
@@ -752,6 +963,7 @@ function PayrollPage() {
                                   employee.status === "done" ? "done" : ""
                                 }`}
                                 disabled={employee.status === "done"}
+                                onClick={() => handleValidateFromTable(employee, payrun.period)}
                               >
                                 {employee.status === "done"
                                   ? "Done"
@@ -765,7 +977,8 @@ function PayrollPage() {
                   </div>
                 )}
               </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
       )}

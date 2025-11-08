@@ -788,3 +788,85 @@
     min-width: 800px;
   }
 }
+
+/* Chart Value Labels */
+.chart-value {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  font-weight: 600;
+  color: #374151;
+  white-space: nowrap;
+  background: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.chart-bar {
+  position: relative;
+}
+
+/* Ensure chart container has enough top padding for labels */
+.chart-container {
+  padding-top: 35px;
+}
+
+/* Empty State */
+.empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.empty-state p {
+  font-size: 16px;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* Payslip Header Updates */
+.payslip-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.payslip-status-badge {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.payslip-status-badge.validated {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.payslip-status-badge.pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+/* Update action buttons for validated payslips */
+.action-buttons .btn-primary:only-child {
+  padding: 10px 24px;
+}
+
+@media (max-width: 768px) {
+  .payslip-header-left {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
